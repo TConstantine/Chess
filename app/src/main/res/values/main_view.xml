@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="board_size_label">Board Size</string>
+    <string name="default_board_size">8</string>
+    <string name="board_size_hint">Enter board size</string>
+</resources>

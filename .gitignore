@@ -33,6 +33,7 @@ gradle.properties
 .project
 
 # idea project files
+.idea
 .idea/
 .idea/.name
 *.iml
