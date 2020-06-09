@@ -22,21 +22,21 @@ import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import constantine.theodoridis.android.game.chess.presentation.mainmenu.MainActivity
+import constantine.theodoridis.android.game.chess.presentation.mainmenu.MainMenuActivity
 import constantine.theodoridis.android.game.chess.R
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class MainActivityTest {
+class MainMenuActivityTest {
     companion object {
         private const val DEFAULT_BOARD_SIZE = 8
     }
 
     @Rule
     @JvmField
-    val intentsTestRule = IntentsTestRule(MainActivity::class.java)
+    val intentsTestRule = IntentsTestRule(MainMenuActivity::class.java)
 
     @Test
     fun shouldDisplayDefaultBoardSize() {

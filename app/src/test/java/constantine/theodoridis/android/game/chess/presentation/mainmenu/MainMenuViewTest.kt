@@ -32,11 +32,11 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.P])
 class MainMenuViewTest {
-    private lateinit var scenario: ActivityScenario<MainActivity>
+    private lateinit var scenario: ActivityScenario<MainMenuActivity>
 
     @Before
     fun setUp() {
-        scenario = launch(MainActivity::class.java)
+        scenario = launch(MainMenuActivity::class.java)
     }
 
     @Test

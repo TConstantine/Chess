@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.mainmenu.MainActivity">
+    tools:context=".presentation.mainmenu.MainMenuActivity">
 
     <TextView
         android:id="@+id/board_size_label"
