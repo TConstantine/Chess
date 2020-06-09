@@ -37,8 +37,8 @@ import org.mockito.junit.MockitoJUnit
 @RunWith(JUnitParamsRunner::class)
 class InputValidationTest {
     companion object {
-        private const val BOARD_SIZE = 8
-        private const val MAX_MOVES = 3
+        private const val BOARD_SIZE = "8"
+        private const val MAX_MOVES = "3"
         private const val BOARD_SIZE_ERROR_MESSAGE = "Board size should be between 6 and 16"
         private const val MAX_MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
     }
@@ -81,14 +81,15 @@ class InputValidationTest {
     @Test
     @Parameters(
         value = [
+            "",
             "5",
             "17"
         ]
     )
-    fun shouldDisplayErrorMessage_whenBoardSizeIsInvalid(boardSize: Int) {
+    fun shouldDisplayErrorMessage_whenBoardSizeIsInvalid(boardSize: String) {
         presenter.viewModelObservable().observeForever(mockObserver)
         val viewModel = MainMenuViewModelBuilder()
-            .withError()
+            .withBoardSizeError()
             .withBoardSizeErrorMessage(BOARD_SIZE_ERROR_MESSAGE)
             .build()
 
@@ -100,15 +101,16 @@ class InputValidationTest {
     @Test
     @Parameters(
         value = [
+            "",
             "0",
             "-1"
         ]
     )
-    fun shouldDisplayErrorMessage_whenMaxMovesAreInvalid(maxMoves: Int) {
+    fun shouldDisplayErrorMessage_whenMaxMovesAreInvalid(maxMoves: String) {
         presenter.viewModelObservable().observeForever(mockObserver)
         val viewModel = MainMenuViewModelBuilder()
-            .withError()
-            .withMaxMovesErrorMessage(MAX_MOVES_ERROR_MESSAGE)
+            .withMovesError()
+            .withMovesErrorMessage(MAX_MOVES_ERROR_MESSAGE)
             .build()
 
         presenter.onStart(BOARD_SIZE, maxMoves)

@@ -27,7 +27,7 @@ class MainMenuResponseBuilder {
         return this
     }
 
-    fun withMaxMovesErrorMessage(maxMovesErrorMessage: String): MainMenuResponseBuilder {
+    fun withMovesErrorMessage(maxMovesErrorMessage: String): MainMenuResponseBuilder {
         this.maxMovesErrorMessage = maxMovesErrorMessage
         return this
     }
@@ -35,7 +35,7 @@ class MainMenuResponseBuilder {
     fun build(): MainMenuResponse {
         return MainMenuResponse(
             boardSizeErrorMessage = boardSizeErrorMessage,
-            maxMovesErrorMessage = maxMovesErrorMessage
+            movesErrorMessage = maxMovesErrorMessage
         )
     }
 }

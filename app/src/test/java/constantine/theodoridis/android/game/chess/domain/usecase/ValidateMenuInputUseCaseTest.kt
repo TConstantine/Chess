@@ -30,10 +30,10 @@ import org.junit.runner.RunWith
 @RunWith(JUnitParamsRunner::class)
 class ValidateMenuInputUseCaseTest {
     companion object {
-        private const val BOARD_SIZE = 8
-        private const val MAX_MOVES = 3
+        private const val BOARD_SIZE = "8"
+        private const val MAX_MOVES = "3"
         private const val BOARD_SIZE_ERROR_MESSAGE = "Board size should be between 6 and 16"
-        private const val MAX_MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
+        private const val MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
     }
 
     private lateinit var useCase: UseCase<MainMenuRequest, MainMenuResponse>
@@ -47,52 +47,48 @@ class ValidateMenuInputUseCaseTest {
     fun shouldReturnResponseWithoutErrorMessages() {
         val request = MainMenuRequestBuilder()
             .withBoardSize(BOARD_SIZE)
-            .withMaxMoves(MAX_MOVES)
+            .withMoves(MAX_MOVES)
             .build()
 
         val response = useCase.execute(request)
 
         assertThat(response.boardSizeErrorMessage, `is`(""))
-        assertThat(response.maxMovesErrorMessage, `is`(""))
+        assertThat(response.movesErrorMessage, `is`(""))
     }
 
     @Test
     @Parameters(
         value = [
-            "5, $BOARD_SIZE_ERROR_MESSAGE",
-            "17, $BOARD_SIZE_ERROR_MESSAGE"
+            "",
+            "5",
+            "17"
         ]
     )
-    fun shouldReturnResponseWithErrorMessage_whenBoardSizeIsInvalid(
-        boardSize: Int,
-        boardSizeErrorMessage: String
-    ) {
+    fun shouldReturnResponseWithErrorMessage_whenBoardSizeIsInvalid(boardSize: String) {
         val request = MainMenuRequestBuilder()
             .withBoardSize(boardSize)
             .build()
 
         val response = useCase.execute(request)
 
-        assertThat(response.boardSizeErrorMessage, `is`(boardSizeErrorMessage))
+        assertThat(response.boardSizeErrorMessage, `is`(BOARD_SIZE_ERROR_MESSAGE))
     }
 
     @Test
     @Parameters(
         value = [
-            "0, $MAX_MOVES_ERROR_MESSAGE",
-            "-1, $MAX_MOVES_ERROR_MESSAGE"
+            "",
+            "0",
+            "-1"
         ]
     )
-    fun shouldReturnResponseWithErrorMessage_whenMaxMovesAreInvalid(
-        maxMoves: Int,
-        maxMovesErrorMessage: String
-    ) {
+    fun shouldReturnResponseWithErrorMessage_whenMovesAreInvalid(moves: String) {
         val request = MainMenuRequestBuilder()
-            .withMaxMoves(maxMoves)
+            .withMoves(moves)
             .build()
 
         val response = useCase.execute(request)
 
-        assertThat(response.maxMovesErrorMessage, `is`(maxMovesErrorMessage))
+        assertThat(response.movesErrorMessage, `is`(MOVES_ERROR_MESSAGE))
     }
 }

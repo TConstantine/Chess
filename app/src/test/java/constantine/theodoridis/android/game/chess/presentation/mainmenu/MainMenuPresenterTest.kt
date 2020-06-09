@@ -38,12 +38,12 @@ import org.mockito.junit.MockitoJUnit
 
 class MainMenuPresenterTest {
     companion object {
-        private const val BOARD_SIZE = 8
-        private const val INVALID_BOARD_SIZE = 0
-        private const val MAX_MOVES = 3
-        private const val INVALID_MAX_MOVES = 0
+        private const val BOARD_SIZE = "8"
+        private const val INVALID_BOARD_SIZE = ""
+        private const val MAX_MOVES = "3"
+        private const val INVALID_MAX_MOVES = ""
         private const val BOARD_SIZE_ERROR_MESSAGE = "Board size should be between 6 and 16"
-        private const val MAX_MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
+        private const val MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
     }
 
     @Rule
@@ -80,7 +80,7 @@ class MainMenuPresenterTest {
             .withBoardSizeErrorMessage(BOARD_SIZE_ERROR_MESSAGE)
             .build()
         val viewModel = MainMenuViewModelBuilder()
-            .withError()
+            .withBoardSizeError()
             .withBoardSizeErrorMessage(BOARD_SIZE_ERROR_MESSAGE)
             .build()
         `when`(mockUseCase.execute(any())).thenReturn(response)
@@ -94,11 +94,11 @@ class MainMenuPresenterTest {
     fun shouldDisplayErrorMessage_whenMaxMovesAreInvalid() {
         presenter.viewModelObservable().observeForever(mockObserver)
         val response = MainMenuResponseBuilder()
-            .withMaxMovesErrorMessage(MAX_MOVES_ERROR_MESSAGE)
+            .withMovesErrorMessage(MOVES_ERROR_MESSAGE)
             .build()
         val viewModel = MainMenuViewModelBuilder()
-            .withError()
-            .withMaxMovesErrorMessage(MAX_MOVES_ERROR_MESSAGE)
+            .withMovesError()
+            .withMovesErrorMessage(MOVES_ERROR_MESSAGE)
             .build()
         `when`(mockUseCase.execute(any())).thenReturn(response)
 

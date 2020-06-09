@@ -18,5 +18,5 @@ package constantine.theodoridis.android.game.chess.domain.response
 
 data class MainMenuResponse(
     val boardSizeErrorMessage: String,
-    val maxMovesErrorMessage: String
+    val movesErrorMessage: String
 )

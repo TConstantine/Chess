@@ -23,21 +23,21 @@ class ValidateMenuInputUseCase : UseCase<MainMenuRequest, MainMenuResponse> {
     companion object {
         private const val MINIMUM_BOARD_SIZE = 6
         private const val MAXIMUM_BOARD_SIZE = 16
-        private const val MINIMUM_MAX_MOVES = 1
+        private const val MINIMUM_MOVES = 1
         private const val BOARD_SIZE_ERROR_MESSAGE = "Board size should be between 6 and 16"
-        private const val MAX_MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
+        private const val MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
     }
 
     override fun execute(request: MainMenuRequest): MainMenuResponse {
         var boardSizeErrorMessage = ""
-        var maxMovesErrorMessage = ""
-        if (request.boardSize < MINIMUM_BOARD_SIZE || request.boardSize > MAXIMUM_BOARD_SIZE) {
+        var movesErrorMessage = ""
+        if (request.boardSize == "" || Integer.parseInt(request.boardSize) < MINIMUM_BOARD_SIZE || Integer.parseInt(request.boardSize) > MAXIMUM_BOARD_SIZE) {
             boardSizeErrorMessage = BOARD_SIZE_ERROR_MESSAGE
         }
-        if (request.maxMoves <= MINIMUM_MAX_MOVES) {
-            maxMovesErrorMessage = MAX_MOVES_ERROR_MESSAGE
+        if (request.moves == "" || Integer.parseInt(request.moves) <= MINIMUM_MOVES) {
+            movesErrorMessage = MOVES_ERROR_MESSAGE
         }
-        return createResponse(boardSizeErrorMessage, maxMovesErrorMessage)
+        return createResponse(boardSizeErrorMessage, movesErrorMessage)
     }
 
     private fun createResponse(
@@ -46,7 +46,7 @@ class ValidateMenuInputUseCase : UseCase<MainMenuRequest, MainMenuResponse> {
     ): MainMenuResponse {
         return MainMenuResponse(
             boardSizeErrorMessage = boardSizeErrorMessage,
-            maxMovesErrorMessage = maxMovesErrorMessage
+            movesErrorMessage = maxMovesErrorMessage
         )
     }
 }

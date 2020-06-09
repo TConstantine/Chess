@@ -46,23 +46,25 @@ class MainActivity : AppCompatActivity() {
             handleOnClick(viewModel)
         })
         startButton.setOnClickListener {
-            presenter.onStart(
-                Integer.parseInt(boardSizeEditText.text.toString()),
-                Integer.parseInt(movesEditText.text.toString())
-            )
+            presenter.onStart(boardSizeEditText.text.toString(), movesEditText.text.toString())
         }
     }
 
     private fun handleOnClick(viewModel: MainMenuViewModel) {
         boardSizeErrorTextView.visibility = View.GONE
         movesErrorTextView.visibility = View.GONE
-        if (viewModel.hasError) {
-            boardSizeErrorTextView.text = viewModel.boardSizeErrorMessage
-            boardSizeErrorTextView.visibility = View.VISIBLE
-            movesErrorTextView.text = viewModel.maxMovesErrorMessage
-            movesErrorTextView.visibility = View.VISIBLE
-        } else {
+        if (!viewModel.hasBoardSizeError && !viewModel.hasMovesError) {
             Log.d("MainMenuActivity", "Success")
+        } else {
+            if (viewModel.hasBoardSizeError) {
+                boardSizeErrorTextView.text = viewModel.boardSizeErrorMessage
+                boardSizeErrorTextView.visibility = View.VISIBLE
+            }
+            if (viewModel.hasMovesError) {
+                movesErrorTextView.text = viewModel.movesErrorMessage
+                movesErrorTextView.visibility = View.VISIBLE
+            }
         }
+
     }
 }

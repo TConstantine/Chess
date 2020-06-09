@@ -19,30 +19,38 @@ package constantine.theodoridis.android.game.chess.presentation.mainmenu.builder
 import constantine.theodoridis.android.game.chess.presentation.mainmenu.model.MainMenuViewModel
 
 class MainMenuViewModelBuilder {
-    private var hasError = false
+    private var hasBoardSizeError = false
     private var boardSizeErrorMessage = ""
-    private var maxMovesErrorMessage = ""
+    private var hasMovesError = false
+    private var movesErrorMessage = ""
 
-    fun withError(): MainMenuViewModelBuilder {
-        this.hasError = true
+    fun withBoardSizeError(): MainMenuViewModelBuilder {
+        this.hasBoardSizeError = true
         return this
     }
+
 
     fun withBoardSizeErrorMessage(boardSizeErrorMessage: String): MainMenuViewModelBuilder {
         this.boardSizeErrorMessage = boardSizeErrorMessage
         return this
     }
 
-    fun withMaxMovesErrorMessage(maxMovesErrorMessage: String): MainMenuViewModelBuilder {
-        this.maxMovesErrorMessage = maxMovesErrorMessage
+    fun withMovesError(): MainMenuViewModelBuilder {
+        this.hasMovesError = true
+        return this
+    }
+
+    fun withMovesErrorMessage(movesErrorMessage: String): MainMenuViewModelBuilder {
+        this.movesErrorMessage = movesErrorMessage
         return this
     }
 
     fun build(): MainMenuViewModel {
         return MainMenuViewModel(
-            hasError = hasError,
+            hasBoardSizeError = hasBoardSizeError,
             boardSizeErrorMessage = boardSizeErrorMessage,
-            maxMovesErrorMessage = maxMovesErrorMessage
+            hasMovesError = hasMovesError,
+            movesErrorMessage = movesErrorMessage
         )
     }
 }

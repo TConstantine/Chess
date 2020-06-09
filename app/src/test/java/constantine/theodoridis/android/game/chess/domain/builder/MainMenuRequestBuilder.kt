@@ -19,23 +19,23 @@ package constantine.theodoridis.android.game.chess.domain.builder
 import constantine.theodoridis.android.game.chess.domain.request.MainMenuRequest
 
 class MainMenuRequestBuilder {
-    private var boardSize = 8
-    private var maxMoves = 3
+    private var boardSize = "8"
+    private var moves = "3"
 
-    fun withBoardSize(boardSize: Int): MainMenuRequestBuilder {
+    fun withBoardSize(boardSize: String): MainMenuRequestBuilder {
         this.boardSize = boardSize
         return this
     }
 
-    fun withMaxMoves(maxMoves: Int): MainMenuRequestBuilder {
-        this.maxMoves = maxMoves
+    fun withMoves(moves: String): MainMenuRequestBuilder {
+        this.moves = moves
         return this
     }
 
     fun build(): MainMenuRequest {
         return MainMenuRequest(
             boardSize = boardSize,
-            maxMoves = maxMoves
+            moves = moves
         )
     }
 }

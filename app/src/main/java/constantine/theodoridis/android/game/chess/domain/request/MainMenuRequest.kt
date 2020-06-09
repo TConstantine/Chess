@@ -16,4 +16,4 @@
 
 package constantine.theodoridis.android.game.chess.domain.request
 
-data class MainMenuRequest(val boardSize: Int, val maxMoves: Int)
+data class MainMenuRequest(val boardSize: String, val moves: String)

@@ -36,7 +36,7 @@ class MainMenuPresenter(
     private val compositeDisposable = CompositeDisposable()
     private val viewModelObservable = MutableLiveData<MainMenuViewModel>()
 
-    fun onStart(boardSize: Int, maxMoves: Int) {
+    fun onStart(boardSize: String, maxMoves: String) {
         compositeDisposable.add(Single.fromCallable { useCase.execute(createRequest(boardSize, maxMoves)) }
             .subscribeOn(Schedulers.io())
             .observeOn(scheduler)
@@ -55,18 +55,19 @@ class MainMenuPresenter(
         return viewModelObservable
     }
 
-    private fun createRequest(boardSize: Int, maxMoves: Int): MainMenuRequest {
+    private fun createRequest(boardSize: String, maxMoves: String): MainMenuRequest {
         return MainMenuRequest(
             boardSize = boardSize,
-            maxMoves = maxMoves
+            moves = maxMoves
         )
     }
 
     private fun createViewModel(response: MainMenuResponse): MainMenuViewModel {
         return MainMenuViewModel(
-            hasError = response.boardSizeErrorMessage != "" || response.maxMovesErrorMessage != "",
+            hasBoardSizeError = response.boardSizeErrorMessage != "",
             boardSizeErrorMessage = response.boardSizeErrorMessage,
-            maxMovesErrorMessage = response.maxMovesErrorMessage
+            hasMovesError =  response.movesErrorMessage != "",
+            movesErrorMessage = response.movesErrorMessage
         )
     }
 }
