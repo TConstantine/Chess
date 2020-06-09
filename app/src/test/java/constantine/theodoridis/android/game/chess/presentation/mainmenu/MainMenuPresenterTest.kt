@@ -19,7 +19,7 @@ package constantine.theodoridis.android.game.chess.presentation.mainmenu
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.any
-import constantine.theodoridis.android.game.chess.domain.UseCase
+import constantine.theodoridis.android.game.chess.domain.usecase.UseCase
 import constantine.theodoridis.android.game.chess.domain.builder.MainMenuResponseBuilder
 import constantine.theodoridis.android.game.chess.domain.request.MainMenuRequest
 import constantine.theodoridis.android.game.chess.domain.response.MainMenuResponse

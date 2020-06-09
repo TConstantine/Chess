@@ -19,7 +19,7 @@ package constantine.theodoridis.android.game.chess.presentation.mainmenu
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import constantine.theodoridis.android.game.chess.domain.UseCase
+import constantine.theodoridis.android.game.chess.domain.usecase.UseCase
 import constantine.theodoridis.android.game.chess.domain.request.MainMenuRequest
 import constantine.theodoridis.android.game.chess.domain.response.MainMenuResponse
 import constantine.theodoridis.android.game.chess.presentation.mainmenu.model.MainMenuViewModel

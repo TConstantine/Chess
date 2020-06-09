@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package constantine.theodoridis.android.game.chess.domain
+package constantine.theodoridis.android.game.chess.domain.usecase
 
 interface UseCase<REQUEST, RESPONSE> {
     fun execute(request: REQUEST): RESPONSE
