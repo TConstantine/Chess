@@ -15,6 +15,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -36,6 +42,10 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.23.0'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'org.robolectric:robolectric:4.3'
+    testImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
