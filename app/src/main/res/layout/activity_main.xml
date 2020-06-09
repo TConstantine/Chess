@@ -22,14 +22,28 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginEnd="16dp"
-      android:ems="10"
-      android:hint="@string/board_size_hint"
-      android:inputType="numberSigned"
       android:text="@string/default_board_size"
+      android:hint="@string/board_size_hint"
+      android:ems="10"
+      android:inputType="numberSigned"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toEndOf="@+id/board_size_label"
       app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+      android:id="@+id/moves_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/moves_label" />
+
+  <EditText
+      android:id="@+id/moves"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/default_moves"
+      android:inputType="numberSigned"
+      android:ems="10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
