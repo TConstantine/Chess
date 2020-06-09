@@ -30,6 +30,8 @@ import org.junit.runner.RunWith
 @RunWith(JUnitParamsRunner::class)
 class ValidateMenuInputUseCaseTest {
     companion object {
+        private const val BOARD_SIZE = 8
+        private const val MAX_MOVES = 3
         private const val BOARD_SIZE_ERROR_MESSAGE = "Board size should be between 6 and 16"
         private const val MAX_MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
     }
@@ -39,6 +41,19 @@ class ValidateMenuInputUseCaseTest {
     @Before
     fun setUp() {
         useCase = ValidateMenuInputUseCase()
+    }
+
+    @Test
+    fun shouldReturnResponseWithoutErrorMessages() {
+        val request = MainMenuRequestBuilder()
+            .withBoardSize(BOARD_SIZE)
+            .withMaxMoves(MAX_MOVES)
+            .build()
+
+        val response = useCase.execute(request)
+
+        assertThat(response.boardSizeErrorMessage, `is`(""))
+        assertThat(response.maxMovesErrorMessage, `is`(""))
     }
 
     @Test
