@@ -27,6 +27,11 @@ class MainMenuRequestBuilder {
         return this
     }
 
+    fun withMaxMoves(maxMoves: Int): MainMenuRequestBuilder {
+        this.maxMoves = maxMoves
+        return this
+    }
+
     fun build(): MainMenuRequest {
         return MainMenuRequest(
             boardSize = boardSize,

@@ -19,11 +19,13 @@ package constantine.theodoridis.android.game.chess.domain.usecase
 import constantine.theodoridis.android.game.chess.domain.request.MainMenuRequest
 import constantine.theodoridis.android.game.chess.domain.response.MainMenuResponse
 
-class ValidateMenuInputUseCase: UseCase<MainMenuRequest, MainMenuResponse> {
+class ValidateMenuInputUseCase : UseCase<MainMenuRequest, MainMenuResponse> {
     companion object {
         private const val MINIMUM_BOARD_SIZE = 6
-        private  const val MAXIMUM_BOARD_SIZE = 16
+        private const val MAXIMUM_BOARD_SIZE = 16
+        private const val MINIMUM_MAX_MOVES = 1
         private const val BOARD_SIZE_ERROR_MESSAGE = "Board size should be between 6 and 16"
+        private const val MAX_MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
     }
 
     override fun execute(request: MainMenuRequest): MainMenuResponse {
@@ -32,13 +34,19 @@ class ValidateMenuInputUseCase: UseCase<MainMenuRequest, MainMenuResponse> {
         if (request.boardSize < MINIMUM_BOARD_SIZE || request.boardSize > MAXIMUM_BOARD_SIZE) {
             boardSizeErrorMessage = BOARD_SIZE_ERROR_MESSAGE
         }
+        if (request.maxMoves <= MINIMUM_MAX_MOVES) {
+            maxMovesErrorMessage = MAX_MOVES_ERROR_MESSAGE
+        }
         return createResponse(boardSizeErrorMessage, maxMovesErrorMessage)
     }
 
-    private fun createResponse(boardSizeErrorMessage: String, maxMovesErrorMessage: String): MainMenuResponse {
+    private fun createResponse(
+        boardSizeErrorMessage: String,
+        maxMovesErrorMessage: String
+    ): MainMenuResponse {
         return MainMenuResponse(
             boardSizeErrorMessage = boardSizeErrorMessage,
-            maxMovesErrorMessage =  maxMovesErrorMessage
+            maxMovesErrorMessage = maxMovesErrorMessage
         )
     }
 }
