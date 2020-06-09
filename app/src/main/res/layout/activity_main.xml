@@ -6,45 +6,71 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-  <TextView
-      android:id="@+id/board_size_label"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/board_size_label"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/board_size"
-      app:layout_constraintHorizontal_bias="0.5"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/board_size_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/board_size_label"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/board_size"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-  <EditText
-      android:id="@+id/board_size"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="16dp"
-      android:text="@string/default_board_size"
-      android:hint="@string/board_size_hint"
-      android:ems="10"
-      android:inputType="numberSigned"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.5"
-      app:layout_constraintStart_toEndOf="@+id/board_size_label"
-      app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/board_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:autofillHints="@string/board_size_hint"
+        android:ems="10"
+        android:hint="@string/board_size_hint"
+        android:inputType="numberSigned"
+        android:text="@string/default_board_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-  <TextView
-      android:id="@+id/moves_label"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/moves_label" />
+    <TextView
+        android:id="@+id/moves_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/moves_label"
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/moves"
+        app:layout_constraintStart_toStartOf="@+id/board_size_label" />
 
-  <EditText
-      android:id="@+id/moves"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/default_moves"
-      android:hint="@string/moves_hint"
-      android:inputType="numberSigned"
-      android:ems="10" />
+    <EditText
+        android:id="@+id/moves"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:autofillHints="@string/moves_hint"
+        android:ems="10"
+        android:hint="@string/moves_hint"
+        android:inputType="numberSigned"
+        android:text="@string/default_moves"
+        app:layout_constraintStart_toStartOf="@+id/board_size"
+        app:layout_constraintTop_toBottomOf="@+id/board_size" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="board_size_label,moves_label"
+        tools:layout_editor_absoluteX="411dp" />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/start_label"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moves" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

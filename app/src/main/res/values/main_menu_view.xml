@@ -6,4 +6,5 @@
     <string name="default_moves" translatable="false">3</string>
     <string name="moves_label">Moves</string>
     <string name="moves_hint">Enter maximum moves</string>
+    <string name="start_label">Start</string>
 </resources>
