@@ -14,26 +14,33 @@
  *  limitations under the License.
  */
 
-package constantine.theodoridis.android.game.chess.domain.builder
+package constantine.theodoridis.android.game.chess.presentation.mainmenu.builder
 
-import constantine.theodoridis.android.game.chess.domain.response.MainMenuResponse
+import constantine.theodoridis.android.game.chess.presentation.mainmenu.model.MainMenuViewModel
 
-class MainMenuResponseBuilder {
+class MainMenuViewModelBuilder {
+    private var hasError = false
     private var boardSizeErrorMessage = ""
     private var maxMovesErrorMessage = ""
 
-    fun withBoardSizeErrorMessage(boardSizeErrorMessage: String): MainMenuResponseBuilder {
+    fun withError(): MainMenuViewModelBuilder {
+        this.hasError = true
+        return this
+    }
+
+    fun withBoardSizeErrorMessage(boardSizeErrorMessage: String): MainMenuViewModelBuilder {
         this.boardSizeErrorMessage = boardSizeErrorMessage
         return this
     }
 
-    fun withMaxMovesErrorMessage(maxMovesErrorMessage: String): MainMenuResponseBuilder {
+    fun withMaxMovesErrorMessage(maxMovesErrorMessage: String): MainMenuViewModelBuilder {
         this.maxMovesErrorMessage = maxMovesErrorMessage
         return this
     }
 
-    fun build(): MainMenuResponse {
-        return MainMenuResponse(
+    fun build(): MainMenuViewModel {
+        return MainMenuViewModel(
+            hasError = hasError,
             boardSizeErrorMessage = boardSizeErrorMessage,
             maxMovesErrorMessage = maxMovesErrorMessage
         )

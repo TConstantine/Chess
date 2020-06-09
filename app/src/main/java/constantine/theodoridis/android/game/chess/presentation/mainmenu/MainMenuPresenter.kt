@@ -64,8 +64,9 @@ class MainMenuPresenter(
 
     private fun createViewModel(response: MainMenuResponse): MainMenuViewModel {
         return MainMenuViewModel(
-            hasError = response.boardSizeErrorMessage != "",
-            boardSizeErrorMessage = response.boardSizeErrorMessage
+            hasError = response.boardSizeErrorMessage != "" || response.maxMovesErrorMessage != "",
+            boardSizeErrorMessage = response.boardSizeErrorMessage,
+            maxMovesErrorMessage = response.maxMovesErrorMessage
         )
     }
 }

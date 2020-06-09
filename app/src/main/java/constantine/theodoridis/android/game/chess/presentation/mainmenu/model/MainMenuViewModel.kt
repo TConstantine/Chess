@@ -18,5 +18,6 @@ package constantine.theodoridis.android.game.chess.presentation.mainmenu.model
 
 data class MainMenuViewModel(
     val hasError: Boolean,
-    val boardSizeErrorMessage: String
+    val boardSizeErrorMessage: String,
+    val maxMovesErrorMessage: String
 )

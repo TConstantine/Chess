@@ -23,6 +23,7 @@ import constantine.theodoridis.android.game.chess.domain.UseCase
 import constantine.theodoridis.android.game.chess.domain.builder.MainMenuResponseBuilder
 import constantine.theodoridis.android.game.chess.domain.request.MainMenuRequest
 import constantine.theodoridis.android.game.chess.domain.response.MainMenuResponse
+import constantine.theodoridis.android.game.chess.presentation.mainmenu.builder.MainMenuViewModelBuilder
 import constantine.theodoridis.android.game.chess.presentation.mainmenu.model.MainMenuViewModel
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
@@ -37,13 +38,12 @@ import org.mockito.junit.MockitoJUnit
 
 class MainMenuPresenterTest {
     companion object {
+        private const val BOARD_SIZE = 8
         private const val INVALID_BOARD_SIZE = 0
         private const val MAX_MOVES = 3
+        private const val INVALID_MAX_MOVES = 0
         private const val BOARD_SIZE_ERROR_MESSAGE = "Board size should be between 6 and 16"
-        private val MAIN_MENU_VIEW_MODEL = MainMenuViewModel(
-            hasError = true,
-            boardSizeErrorMessage = BOARD_SIZE_ERROR_MESSAGE
-        )
+        private const val MAX_MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
     }
 
     @Rule
@@ -76,13 +76,34 @@ class MainMenuPresenterTest {
     @Test
     fun shouldDisplayErrorMessage_whenBoardSizeIsInvalid() {
         presenter.viewModelObservable().observeForever(mockObserver)
-        val response = MainMenuResponseBuilder
+        val response = MainMenuResponseBuilder()
+            .withBoardSizeErrorMessage(BOARD_SIZE_ERROR_MESSAGE)
+            .build()
+        val viewModel = MainMenuViewModelBuilder()
+            .withError()
             .withBoardSizeErrorMessage(BOARD_SIZE_ERROR_MESSAGE)
             .build()
         `when`(mockUseCase.execute(any())).thenReturn(response)
 
         presenter.onStart(INVALID_BOARD_SIZE, MAX_MOVES)
 
-        verify(mockObserver).onChanged(MAIN_MENU_VIEW_MODEL)
+        verify(mockObserver).onChanged(viewModel)
+    }
+
+    @Test
+    fun shouldDisplayErrorMessage_whenMaxMovesAreInvalid() {
+        presenter.viewModelObservable().observeForever(mockObserver)
+        val response = MainMenuResponseBuilder()
+            .withMaxMovesErrorMessage(MAX_MOVES_ERROR_MESSAGE)
+            .build()
+        val viewModel = MainMenuViewModelBuilder()
+            .withError()
+            .withMaxMovesErrorMessage(MAX_MOVES_ERROR_MESSAGE)
+            .build()
+        `when`(mockUseCase.execute(any())).thenReturn(response)
+
+        presenter.onStart(BOARD_SIZE, INVALID_MAX_MOVES)
+
+        verify(mockObserver).onChanged(viewModel)
     }
 }
