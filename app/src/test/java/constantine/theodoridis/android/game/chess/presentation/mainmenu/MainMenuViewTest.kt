@@ -44,4 +44,9 @@ class MainMenuViewTest {
     fun shouldDisplayDefaultBoardSize() {
         onView(withId(R.id.board_size)).check(matches(withText(R.string.default_board_size)))
     }
+
+    @Test
+    fun shouldDisplayBoardSizeHint() {
+        onView(withId(R.id.board_size)).check(matches(withHint(R.string.board_size_hint)))
+    }
 }
