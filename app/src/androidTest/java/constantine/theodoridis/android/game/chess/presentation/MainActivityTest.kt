@@ -22,7 +22,7 @@ import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import constantine.theodoridis.android.game.chess.MainActivity
+import constantine.theodoridis.android.game.chess.presentation.mainmenu.MainActivity
 import constantine.theodoridis.android.game.chess.R
 import org.junit.Rule
 import org.junit.Test

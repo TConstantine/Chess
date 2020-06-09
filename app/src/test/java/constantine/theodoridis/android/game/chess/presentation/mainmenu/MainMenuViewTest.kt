@@ -23,7 +23,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import constantine.theodoridis.android.game.chess.MainActivity
 import constantine.theodoridis.android.game.chess.R
 import org.junit.Before
 import org.junit.Test
