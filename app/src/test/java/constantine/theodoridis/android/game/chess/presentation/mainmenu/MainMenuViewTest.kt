@@ -54,4 +54,9 @@ class MainMenuViewTest {
     fun shouldDisplayDefaultMoves() {
         onView(withId(R.id.moves)).check(matches(withText(R.string.default_moves)))
     }
+
+    @Test
+    fun shouldDisplayMovesHint() {
+        onView(withId(R.id.moves)).check(matches(withHint(R.string.moves_hint)))
+    }
 }

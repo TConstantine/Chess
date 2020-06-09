@@ -5,4 +5,5 @@
     <string name="board_size_hint">Enter board size</string>
     <string name="default_moves" translatable="false">3</string>
     <string name="moves_label">Moves</string>
+    <string name="moves_hint">Enter maximum moves</string>
 </resources>
