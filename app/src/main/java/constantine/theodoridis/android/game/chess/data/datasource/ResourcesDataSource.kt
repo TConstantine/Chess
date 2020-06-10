@@ -19,6 +19,10 @@ package constantine.theodoridis.android.game.chess.data.datasource
 import android.content.res.Resources
 
 class ResourcesDataSource(private val resources: Resources) : ResourceDataSource {
+    override fun getInteger(resourceId: Int): Int {
+        TODO("Not yet implemented")
+    }
+
     override fun getString(resourceId: Int): String {
         return resources.getString(resourceId)
     }

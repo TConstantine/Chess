@@ -17,5 +17,6 @@
 package constantine.theodoridis.android.game.chess.data.datasource
 
 interface ResourceDataSource {
+    fun getInteger(resourceId: Int): Int
     fun getString(resourceId: Int): String
 }
