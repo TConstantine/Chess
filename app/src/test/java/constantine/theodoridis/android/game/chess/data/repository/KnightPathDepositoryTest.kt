@@ -20,10 +20,13 @@ import constantine.theodoridis.android.game.chess.data.database.builder.KnightPa
 import constantine.theodoridis.android.game.chess.data.datasource.DatabaseDataSource
 import constantine.theodoridis.android.game.chess.domain.builder.KnightPathBuilder
 import constantine.theodoridis.android.game.chess.domain.repository.KnightPathRepository
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnit
 
@@ -59,6 +62,16 @@ class KnightPathDepositoryTest {
         repository.deleteSolutions()
 
         verify(mockDatabaseDataSource).deleteSolutions()
+    }
+
+    @Test
+    fun shouldLoadSolutionsFromDatabaseDataSource() {
+        `when`(mockDatabaseDataSource.loadSolutions()).thenReturn(KNIGHT_PATH_DATABASE_MODEL)
+
+        val solutions = repository.loadSolutions()
+
+        verify(mockDatabaseDataSource).loadSolutions()
+        assertThat(solutions, `is`(SOLUTIONS))
     }
 
     @Test
