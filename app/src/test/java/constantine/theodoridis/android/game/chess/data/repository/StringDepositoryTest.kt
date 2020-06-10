@@ -16,6 +16,7 @@
 
 package constantine.theodoridis.android.game.chess.data.repository
 
+import constantine.theodoridis.android.game.chess.R
 import constantine.theodoridis.android.game.chess.data.datasource.ResourceDataSource
 import constantine.theodoridis.android.game.chess.domain.repository.StringRepository
 import org.hamcrest.CoreMatchers.`is`
@@ -25,7 +26,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnit
 
@@ -51,11 +52,18 @@ class StringDepositoryTest {
 
     @Test
     fun shouldReturnStringRetrievedFromResourceDataSource() {
-        Mockito.`when`(mockResourceDataSource.getString(anyInt())).thenReturn(STRING)
+        `when`(mockResourceDataSource.getString(anyInt())).thenReturn(STRING)
 
         val string = repository.getString(RESOURCE_ID)
 
         verify(mockResourceDataSource).getString(RESOURCE_ID)
         assertThat(string, `is`(STRING))
+    }
+
+    @Test
+    fun shouldReturnSolutionErrorMessageFromResourceDataSource() {
+        repository.getSolutionErrorMessage()
+
+        verify(mockResourceDataSource).getString(R.string.solution_error_message)
     }
 }

@@ -16,6 +16,7 @@
 
 package constantine.theodoridis.android.game.chess.data.repository
 
+import constantine.theodoridis.android.game.chess.R
 import constantine.theodoridis.android.game.chess.data.datasource.ResourceDataSource
 import constantine.theodoridis.android.game.chess.domain.repository.StringRepository
 
@@ -25,6 +26,6 @@ class StringDepository(private val resourceDataSource: ResourceDataSource) : Str
     }
 
     override fun getSolutionErrorMessage(): String {
-        TODO("Not yet implemented")
+        return resourceDataSource.getString(R.string.solution_error_message)
     }
 }
