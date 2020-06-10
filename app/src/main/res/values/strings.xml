@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Chess</string>
+    <string name="solution_error_message">No solution has been found</string>
 </resources>
