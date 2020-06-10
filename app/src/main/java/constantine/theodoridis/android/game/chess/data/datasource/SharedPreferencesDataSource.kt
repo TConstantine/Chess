@@ -12,4 +12,8 @@ class SharedPreferencesDataSource(
     override fun getInt(key: String, defaultValue: Int): Int {
         return sharedPreferences.getInt(key, defaultValue)
     }
+
+    override fun putInt(key: String, value: Int) {
+        TODO("Not yet implemented")
+    }
 }

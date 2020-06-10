@@ -53,6 +53,9 @@ class PreferenceDepository(
     }
 
     override fun saveLastPreferredBoardSize() {
-        TODO("Not yet implemented")
+        preferenceDataSource.putInt(
+            resourceDataSource.getString(R.string.last_preferred_board_size_key),
+            getPreferredBoardSize()
+        )
     }
 }

@@ -31,8 +31,9 @@ import org.mockito.junit.MockitoJUnit
 class PreferenceDepositoryTest {
     companion object {
         private const val LAST_PREFERRED_BOARD_SIZE_KEY = "Last preferred board size key"
-        private const val BOARD_SIZE_KEY = "Board size key"
+        private const val PREFERRED_BOARD_SIZE_KEY = "Preferred board size key"
         private const val DEFAULT_BOARD_SIZE = 0
+        private const val PREFERRED_BOARD_SIZE = 0
         private const val MOVES_KEY = "Moves key"
         private const val DEFAULT_MOVES = 0
     }
@@ -66,12 +67,12 @@ class PreferenceDepositoryTest {
 
     @Test
     fun shouldReturnPreferredBoardSizeFromPreferenceDataSource() {
-        `when`(mockResourceDataSource.getString(anyInt())).thenReturn(BOARD_SIZE_KEY)
+        `when`(mockResourceDataSource.getString(anyInt())).thenReturn(PREFERRED_BOARD_SIZE_KEY)
         `when`(mockResourceDataSource.getInteger(anyInt())).thenReturn(DEFAULT_BOARD_SIZE)
 
         repository.getPreferredBoardSize()
 
-        verify(mockPreferenceDataSource).getInt(BOARD_SIZE_KEY, DEFAULT_BOARD_SIZE)
+        verify(mockPreferenceDataSource).getInt(PREFERRED_BOARD_SIZE_KEY, DEFAULT_BOARD_SIZE)
     }
 
     @Test
@@ -91,5 +92,17 @@ class PreferenceDepositoryTest {
         repository.hasLastPreferredBoardSize()
 
         verify(mockPreferenceDataSource).contains(LAST_PREFERRED_BOARD_SIZE_KEY)
+    }
+
+    @Test
+    fun shouldSaveLastPreferredBoardSizeInPreferenceDataSource() {
+        `when`(mockResourceDataSource.getString(anyInt()))
+            .thenReturn(LAST_PREFERRED_BOARD_SIZE_KEY)
+            .thenReturn(PREFERRED_BOARD_SIZE_KEY)
+        `when`(mockResourceDataSource.getInteger(anyInt())).thenReturn(DEFAULT_BOARD_SIZE)
+
+        repository.saveLastPreferredBoardSize()
+
+        verify(mockPreferenceDataSource).putInt(LAST_PREFERRED_BOARD_SIZE_KEY, PREFERRED_BOARD_SIZE)
     }
 }
