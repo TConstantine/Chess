@@ -55,6 +55,10 @@ class MainMenuPresenter(
         return viewModelObservable
     }
 
+    override fun onCleared() {
+        compositeDisposable.clear()
+    }
+
     private fun createRequest(boardSize: String, maxMoves: String): MainMenuRequest {
         return MainMenuRequest(
             boardSize = boardSize,
