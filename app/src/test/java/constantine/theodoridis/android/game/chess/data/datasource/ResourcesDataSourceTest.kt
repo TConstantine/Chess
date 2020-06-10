@@ -27,6 +27,11 @@ import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnit
 
 class ResourcesDataSourceTest {
+    companion object {
+        private const val RESOURCE_ID = 0
+        private const val EMPTY_STRING = ""
+    }
+
     @Rule
     @JvmField
     val mockitoRule = MockitoJUnit.rule()!!
@@ -42,12 +47,18 @@ class ResourcesDataSourceTest {
     }
 
     @Test
-    fun givenResourceId_whenGettingString_thenGetStringFromResources() {
-        val resourceId = 1
-        `when`(mockResources.getString(anyInt())).thenReturn("")
+    fun shouldReturnIntResourceFromResources() {
+        resourceDataSource.getInteger(RESOURCE_ID)
 
-        resourceDataSource.getString(resourceId)
+        verify(mockResources).getInteger(RESOURCE_ID)
+    }
 
-        verify(mockResources).getString(resourceId)
+    @Test
+    fun shouldReturnStringResourceFromResources() {
+        `when`(mockResources.getString(anyInt())).thenReturn(EMPTY_STRING)
+
+        resourceDataSource.getString(RESOURCE_ID)
+
+        verify(mockResources).getString(RESOURCE_ID)
     }
 }

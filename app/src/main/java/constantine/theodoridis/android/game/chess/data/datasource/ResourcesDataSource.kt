@@ -20,7 +20,7 @@ import android.content.res.Resources
 
 class ResourcesDataSource(private val resources: Resources) : ResourceDataSource {
     override fun getInteger(resourceId: Int): Int {
-        TODO("Not yet implemented")
+        return resources.getInteger(resourceId)
     }
 
     override fun getString(resourceId: Int): String {
