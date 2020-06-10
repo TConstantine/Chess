@@ -26,6 +26,10 @@ class KnightPathDepository(private val databaseDataSource: DatabaseDataSource): 
         databaseDataSource.deleteSolutions()
     }
 
+    override fun loadSolutions(): List<KnightPath> {
+        TODO("Not yet implemented")
+    }
+
     override fun save(knightPaths: List<KnightPath>) {
         val databaseModel = mutableListOf<KnightPathDatabaseModel>()
         knightPaths.forEach {

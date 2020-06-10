@@ -14,12 +14,12 @@
  *  limitations under the License.
  */
 
-package constantine.theodoridis.android.game.chess.domain.repository
+package constantine.theodoridis.android.game.chess.domain.builder
 
-import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
+import constantine.theodoridis.android.game.chess.domain.request.LoadGameRequest
 
-interface KnightPathRepository {
-    fun deleteSolutions()
-    fun loadSolutions(): List<KnightPath>
-    fun save(knightPaths: List<KnightPath>)
+class LoadGameRequestBuilder {
+    fun build(): LoadGameRequest {
+        return LoadGameRequest()
+    }
 }

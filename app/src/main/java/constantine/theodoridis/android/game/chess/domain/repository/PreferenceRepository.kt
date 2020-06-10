@@ -16,10 +16,8 @@
 
 package constantine.theodoridis.android.game.chess.domain.repository
 
-import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
-
-interface KnightPathRepository {
-    fun deleteSolutions()
-    fun loadSolutions(): List<KnightPath>
-    fun save(knightPaths: List<KnightPath>)
+interface PreferenceRepository {
+    fun getLastPreferredBoardSize(): Int
+    fun getPreferredBoardSize(): Int
+    fun hasLastPreferredBoardSize(): Boolean
 }
