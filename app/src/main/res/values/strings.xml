@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Chess</string>
+    <string name="board_size_label">Board Size</string>
+    <string name="default_board_size" translatable="false">8</string>
+    <string name="board_size_hint">Enter board size</string>
+    <string name="board_size_error_message">Board size should be between 6 and 16</string>
+    <string name="moves_label">Moves</string>
+    <string name="default_moves" translatable="false">3</string>
+    <string name="moves_hint">Enter maximum moves</string>
+    <string name="moves_error_message">Maximum moves should be greater than 0</string>
+    <string name="start_label">Start</string>
     <string name="solution_error_message">No solution has been found</string>
 </resources>

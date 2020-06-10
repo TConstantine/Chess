@@ -11,6 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import constantine.theodoridis.android.game.chess.R
+import constantine.theodoridis.android.game.chess.data.datasource.ResourcesDataSource
+import constantine.theodoridis.android.game.chess.data.repository.StringDepository
 import constantine.theodoridis.android.game.chess.domain.usecase.ValidateMenuInputUseCase
 import constantine.theodoridis.android.game.chess.presentation.game.GameActivity
 import constantine.theodoridis.android.game.chess.presentation.mainmenu.model.MainMenuViewModel
@@ -38,7 +40,9 @@ class MainMenuActivity : AppCompatActivity() {
         movesEditText = findViewById(R.id.moves)
         movesErrorTextView = findViewById(R.id.moves_error)
         startButton = findViewById(R.id.start)
-        val useCase = ValidateMenuInputUseCase()
+        val resourceDataSource = ResourcesDataSource(resources)
+        val stringRepository = StringDepository(resourceDataSource)
+        val useCase = ValidateMenuInputUseCase(stringRepository)
         presenter = ViewModelProvider(this, object : ViewModelProvider.NewInstanceFactory() {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {

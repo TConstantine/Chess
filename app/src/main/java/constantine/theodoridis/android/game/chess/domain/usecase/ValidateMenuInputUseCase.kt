@@ -16,28 +16,44 @@
 
 package constantine.theodoridis.android.game.chess.domain.usecase
 
+import constantine.theodoridis.android.game.chess.R
+import constantine.theodoridis.android.game.chess.domain.repository.StringRepository
 import constantine.theodoridis.android.game.chess.domain.request.MainMenuRequest
 import constantine.theodoridis.android.game.chess.domain.response.MainMenuResponse
 
-class ValidateMenuInputUseCase : UseCase<MainMenuRequest, MainMenuResponse> {
+class ValidateMenuInputUseCase(
+    private val stringRepository: StringRepository
+) : UseCase<MainMenuRequest, MainMenuResponse> {
     companion object {
         private const val MINIMUM_BOARD_SIZE = 6
         private const val MAXIMUM_BOARD_SIZE = 16
-        private const val MINIMUM_MOVES = 1
-        private const val BOARD_SIZE_ERROR_MESSAGE = "Board size should be between 6 and 16"
-        private const val MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
+        private const val MINIMUM_MOVES = 0
+        private const val NUMERIC_PATTERN = "-?\\d+(\\.\\d+)?"
     }
 
     override fun execute(request: MainMenuRequest): MainMenuResponse {
         var boardSizeErrorMessage = ""
         var movesErrorMessage = ""
-        if (request.boardSize == "" || Integer.parseInt(request.boardSize) < MINIMUM_BOARD_SIZE || Integer.parseInt(request.boardSize) > MAXIMUM_BOARD_SIZE) {
-            boardSizeErrorMessage = BOARD_SIZE_ERROR_MESSAGE
+        if (!isBoardSizeInputValid(request.boardSize)) {
+            boardSizeErrorMessage = stringRepository.getString(R.string.board_size_error_message)
         }
-        if (request.moves == "" || Integer.parseInt(request.moves) <= MINIMUM_MOVES) {
-            movesErrorMessage = MOVES_ERROR_MESSAGE
+        if (!isMovesInputValid(request.moves)) {
+            movesErrorMessage = stringRepository.getString(R.string.moves_error_message)
         }
         return createResponse(boardSizeErrorMessage, movesErrorMessage)
+    }
+
+    private fun isBoardSizeInputValid(boardSize: String): Boolean {
+        return boardSize != "" &&
+                boardSize.matches(NUMERIC_PATTERN.toRegex()) &&
+                Integer.parseInt(boardSize) >= MINIMUM_BOARD_SIZE &&
+                Integer.parseInt(boardSize) <= MAXIMUM_BOARD_SIZE
+    }
+
+    private fun isMovesInputValid(moves: String): Boolean {
+        return moves != "" &&
+                moves.matches(NUMERIC_PATTERN.toRegex()) &&
+                Integer.parseInt(moves) > MINIMUM_MOVES
     }
 
     private fun createResponse(

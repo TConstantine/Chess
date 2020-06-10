@@ -18,6 +18,8 @@ package constantine.theodoridis.android.game.chess.presentation.mainmenu
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import constantine.theodoridis.android.game.chess.data.datasource.ResourceDataSource
+import constantine.theodoridis.android.game.chess.data.repository.StringDepository
 import constantine.theodoridis.android.game.chess.domain.usecase.ValidateMenuInputUseCase
 import constantine.theodoridis.android.game.chess.presentation.mainmenu.builder.MainMenuViewModelBuilder
 import constantine.theodoridis.android.game.chess.presentation.mainmenu.model.MainMenuViewModel
@@ -30,7 +32,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnit
 
@@ -38,9 +42,9 @@ import org.mockito.junit.MockitoJUnit
 class InputValidationTest {
     companion object {
         private const val BOARD_SIZE = "8"
-        private const val MAX_MOVES = "3"
-        private const val BOARD_SIZE_ERROR_MESSAGE = "Board size should be between 6 and 16"
-        private const val MAX_MOVES_ERROR_MESSAGE = "Max moves should be greater than 0"
+        private const val MOVES = "3"
+        private const val BOARD_SIZE_ERROR_MESSAGE = "Board size error message"
+        private const val MOVES_ERROR_MESSAGE = "Moves error message"
     }
 
     @Rule
@@ -54,11 +58,15 @@ class InputValidationTest {
     @Mock
     private lateinit var mockObserver: Observer<MainMenuViewModel>
 
+    @Mock
+    private lateinit var mockResourceDataSource: ResourceDataSource
+
     private lateinit var presenter: MainMenuPresenter
 
     @Before
     fun setUp() {
-        val useCase = ValidateMenuInputUseCase()
+        val stringRepository = StringDepository(mockResourceDataSource)
+        val useCase = ValidateMenuInputUseCase(stringRepository)
         presenter = MainMenuPresenter(useCase, Schedulers.trampoline())
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
     }
@@ -69,11 +77,11 @@ class InputValidationTest {
     }
 
     @Test
-    fun shouldNotDisplayErrorMessage_whenInputIsValid() {
+    fun shouldNotDisplayErrorMessages_whenInputIsValid() {
         presenter.viewModelObservable().observeForever(mockObserver)
         val viewModel = MainMenuViewModelBuilder().build()
 
-        presenter.onStart(BOARD_SIZE, MAX_MOVES)
+        presenter.onStart(BOARD_SIZE, MOVES)
 
         verify(mockObserver).onChanged(viewModel)
     }
@@ -82,18 +90,20 @@ class InputValidationTest {
     @Parameters(
         value = [
             "",
+            "-",
             "5",
             "17"
         ]
     )
-    fun shouldDisplayErrorMessage_whenBoardSizeIsInvalid(boardSize: String) {
+    fun shouldDisplayBoardSizeErrorMessage_whenBoardSizeIsInvalid(boardSize: String) {
         presenter.viewModelObservable().observeForever(mockObserver)
         val viewModel = MainMenuViewModelBuilder()
             .withBoardSizeError()
             .withBoardSizeErrorMessage(BOARD_SIZE_ERROR_MESSAGE)
             .build()
+        `when`(mockResourceDataSource.getString(anyInt())).thenReturn(BOARD_SIZE_ERROR_MESSAGE)
 
-        presenter.onStart(boardSize, MAX_MOVES)
+        presenter.onStart(boardSize, MOVES)
 
         verify(mockObserver).onChanged(viewModel)
     }
@@ -102,16 +112,17 @@ class InputValidationTest {
     @Parameters(
         value = [
             "",
-            "0",
-            "-1"
+            "-",
+            "0"
         ]
     )
-    fun shouldDisplayErrorMessage_whenMaxMovesAreInvalid(maxMoves: String) {
+    fun shouldDisplayMovesErrorMessage_whenMovesInputIsInvalid(maxMoves: String) {
         presenter.viewModelObservable().observeForever(mockObserver)
         val viewModel = MainMenuViewModelBuilder()
             .withMovesError()
-            .withMovesErrorMessage(MAX_MOVES_ERROR_MESSAGE)
+            .withMovesErrorMessage(MOVES_ERROR_MESSAGE)
             .build()
+        `when`(mockResourceDataSource.getString(anyInt())).thenReturn(MOVES_ERROR_MESSAGE)
 
         presenter.onStart(BOARD_SIZE, maxMoves)
 
