@@ -93,9 +93,10 @@ class FindKnightPathsUseCaseTest {
 
         val response = useCase.execute(request)
 
-        val inOrder = inOrder(mockKnightPathRepository)
+        val inOrder = inOrder(mockKnightPathRepository, mockPreferenceRepository)
         inOrder.verify(mockKnightPathRepository).deleteSolutions()
         inOrder.verify(mockKnightPathRepository).save(SOLUTION)
+        inOrder.verify(mockPreferenceRepository).saveLastPreferredBoardSize()
         assertThat(response.solutionErrorMessage, `is`(EMPTY_STRING))
     }
 }

@@ -21,4 +21,5 @@ interface PreferenceRepository {
     fun getPreferredBoardSize(): Int
     fun getPreferredMoves(): Int
     fun hasLastPreferredBoardSize(): Boolean
+    fun saveLastPreferredBoardSize()
 }

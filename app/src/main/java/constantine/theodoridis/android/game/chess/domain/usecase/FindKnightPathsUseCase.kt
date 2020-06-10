@@ -46,6 +46,7 @@ class FindKnightPathsUseCase(
         else {
             knightPathRepository.deleteSolutions()
             knightPathRepository.save(solutions)
+            preferenceRepository.saveLastPreferredBoardSize()
         }
         return createResponse(solutionErrorMessage, solutions)
     }
