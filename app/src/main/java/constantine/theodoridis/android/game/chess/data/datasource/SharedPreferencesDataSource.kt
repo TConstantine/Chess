@@ -14,6 +14,6 @@ class SharedPreferencesDataSource(
     }
 
     override fun putInt(key: String, value: Int) {
-        TODO("Not yet implemented")
+        sharedPreferences.edit().putInt(key, value).apply()
     }
 }

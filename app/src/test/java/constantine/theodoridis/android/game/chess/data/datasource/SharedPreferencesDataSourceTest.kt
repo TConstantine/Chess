@@ -20,7 +20,10 @@ import android.content.SharedPreferences
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnit
 
@@ -36,6 +39,9 @@ class SharedPreferencesDataSourceTest {
     
     @Mock
     private lateinit var mockSharedPreferences: SharedPreferences
+
+    @Mock
+    private lateinit var mockSharedPreferencesEditor: SharedPreferences.Editor
 
     private lateinit var preferenceDataSource: PreferenceDataSource
 
@@ -56,5 +62,16 @@ class SharedPreferencesDataSourceTest {
         preferenceDataSource.getInt(KEY, DEFAULT_VALUE)
 
         verify(mockSharedPreferences).getInt(KEY, DEFAULT_VALUE)
+    }
+
+    @Test
+    fun shouldPutIntValueIntoSharedPreferences() {
+        `when`(mockSharedPreferences.edit()).thenReturn(mockSharedPreferencesEditor)
+        `when`(mockSharedPreferencesEditor.putInt(anyString(), anyInt())).thenReturn(mockSharedPreferencesEditor)
+
+        preferenceDataSource.putInt(KEY, DEFAULT_VALUE)
+
+        verify(mockSharedPreferencesEditor).putInt(KEY, DEFAULT_VALUE)
+        verify(mockSharedPreferencesEditor).apply()
     }
 }
