@@ -17,5 +17,11 @@
 package constantine.theodoridis.android.game.chess.domain.entity
 
 interface KnightPathsAlgorithm {
-    fun execute(sourceX: Int, sourceY: Int, destinationX: Int, destinationY: Int): List<KnightPath>
+    fun execute(
+        moves: Int,
+        sourceX: Int,
+        sourceY: Int,
+        destinationX: Int,
+        destinationY: Int
+    ): List<KnightPath>
 }

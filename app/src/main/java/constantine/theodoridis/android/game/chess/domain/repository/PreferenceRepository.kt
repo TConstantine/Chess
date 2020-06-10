@@ -19,5 +19,6 @@ package constantine.theodoridis.android.game.chess.domain.repository
 interface PreferenceRepository {
     fun getLastPreferredBoardSize(): Int
     fun getPreferredBoardSize(): Int
+    fun getPreferredMoves(): Int
     fun hasLastPreferredBoardSize(): Boolean
 }

@@ -18,4 +18,5 @@ package constantine.theodoridis.android.game.chess.domain.repository
 
 interface StringRepository {
     fun getString(resourceId: Int): String
+    fun getSolutionErrorMessage(): String
 }

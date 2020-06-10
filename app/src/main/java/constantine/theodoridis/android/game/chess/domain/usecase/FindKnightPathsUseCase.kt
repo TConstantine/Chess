@@ -16,29 +16,32 @@
 
 package constantine.theodoridis.android.game.chess.domain.usecase
 
-import constantine.theodoridis.android.game.chess.R
 import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
 import constantine.theodoridis.android.game.chess.domain.entity.KnightPathsAlgorithm
 import constantine.theodoridis.android.game.chess.domain.repository.KnightPathRepository
+import constantine.theodoridis.android.game.chess.domain.repository.PreferenceRepository
 import constantine.theodoridis.android.game.chess.domain.repository.StringRepository
 import constantine.theodoridis.android.game.chess.domain.request.FindKnightPathsRequest
 import constantine.theodoridis.android.game.chess.domain.response.FindKnightPathsResponse
 
 class FindKnightPathsUseCase(
+    private val preferenceRepository: PreferenceRepository,
     private val knightPathsAlgorithm: KnightPathsAlgorithm,
     private val stringRepository: StringRepository,
     private val knightPathRepository: KnightPathRepository
 ) : UseCase<FindKnightPathsRequest, FindKnightPathsResponse> {
     override fun execute(request: FindKnightPathsRequest): FindKnightPathsResponse {
+        val moves = preferenceRepository.getPreferredMoves()
         var solutionErrorMessage = ""
         val solutions = knightPathsAlgorithm.execute(
+            moves,
             request.sourceX,
             request.sourceY,
             request.destinationX,
             request.destinationY
         )
         if (solutions.isEmpty()) {
-            solutionErrorMessage = stringRepository.getString(R.string.solution_error_message)
+            solutionErrorMessage = stringRepository.getSolutionErrorMessage()
         }
         else {
             knightPathRepository.deleteSolutions()

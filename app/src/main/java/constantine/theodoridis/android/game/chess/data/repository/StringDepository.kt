@@ -23,4 +23,8 @@ class StringDepository(private val resourceDataSource: ResourceDataSource) : Str
     override fun getString(resourceId: Int): String {
         return resourceDataSource.getString(resourceId)
     }
+
+    override fun getSolutionErrorMessage(): String {
+        TODO("Not yet implemented")
+    }
 }

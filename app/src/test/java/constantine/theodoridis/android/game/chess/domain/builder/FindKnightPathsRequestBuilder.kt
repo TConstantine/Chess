@@ -24,26 +24,6 @@ class FindKnightPathsRequestBuilder {
     private var destinationX = 0
     private var destinationY = 0
 
-    fun withSourceX(sourceX: Int): FindKnightPathsRequestBuilder {
-        this.sourceX = sourceX
-        return this
-    }
-
-    fun withSourceY(sourceY: Int): FindKnightPathsRequestBuilder {
-        this.sourceY = sourceY
-        return this
-    }
-
-    fun withDestinationX(destinationX: Int): FindKnightPathsRequestBuilder {
-        this.destinationX = destinationX
-        return this
-    }
-
-    fun withDestinationY(destinationY: Int): FindKnightPathsRequestBuilder {
-        this.destinationY = destinationY
-        return this
-    }
-
     fun build(): FindKnightPathsRequest {
         return FindKnightPathsRequest(
             sourceX = sourceX,

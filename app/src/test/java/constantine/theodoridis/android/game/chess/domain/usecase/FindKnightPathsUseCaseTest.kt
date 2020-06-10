@@ -17,9 +17,11 @@
 package constantine.theodoridis.android.game.chess.domain.usecase
 
 import constantine.theodoridis.android.game.chess.domain.builder.FindKnightPathsRequestBuilder
+import constantine.theodoridis.android.game.chess.domain.builder.KnightPathBuilder
 import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
 import constantine.theodoridis.android.game.chess.domain.entity.KnightPathsAlgorithm
 import constantine.theodoridis.android.game.chess.domain.repository.KnightPathRepository
+import constantine.theodoridis.android.game.chess.domain.repository.PreferenceRepository
 import constantine.theodoridis.android.game.chess.domain.repository.StringRepository
 import constantine.theodoridis.android.game.chess.domain.request.FindKnightPathsRequest
 import constantine.theodoridis.android.game.chess.domain.response.FindKnightPathsResponse
@@ -36,14 +38,19 @@ import org.mockito.junit.MockitoJUnit
 
 class FindKnightPathsUseCaseTest {
     companion object {
+        private const val PREFERRED_MOVES = 0
         private const val SOLUTION_ERROR_MESSAGE = "Solution error message"
+        private const val EMPTY_STRING = ""
         private val NO_SOLUTION = listOf<KnightPath>()
-        private val SOLUTION = listOf(KnightPath(arrayOf()))
+        private val SOLUTION = listOf(KnightPathBuilder().build())
     }
 
     @Rule
     @JvmField
     val mockitoRule = MockitoJUnit.rule()!!
+
+    @Mock
+    private lateinit var mockPreferenceRepository: PreferenceRepository
 
     @Mock
     private lateinit var mockKnightPathsAlgorithm: KnightPathsAlgorithm
@@ -59,6 +66,7 @@ class FindKnightPathsUseCaseTest {
     @Before
     fun setUp() {
         useCase = FindKnightPathsUseCase(
+            mockPreferenceRepository,
             mockKnightPathsAlgorithm,
             mockStringRepository,
             mockKnightPathRepository
@@ -68,8 +76,9 @@ class FindKnightPathsUseCaseTest {
     @Test
     fun shouldSendResponseThatContainsErrorMessage_whenSolutionsDoesNotExist() {
         val request = FindKnightPathsRequestBuilder().build()
-        `when`(mockKnightPathsAlgorithm.execute(anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(NO_SOLUTION)
-        `when`(mockStringRepository.getString(anyInt())).thenReturn(SOLUTION_ERROR_MESSAGE)
+        `when`(mockPreferenceRepository.getPreferredMoves()).thenReturn(PREFERRED_MOVES)
+        `when`(mockKnightPathsAlgorithm.execute(anyInt(), anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(NO_SOLUTION)
+        `when`(mockStringRepository.getSolutionErrorMessage()).thenReturn(SOLUTION_ERROR_MESSAGE)
 
         val response = useCase.execute(request)
 
@@ -79,13 +88,14 @@ class FindKnightPathsUseCaseTest {
     @Test
     fun shouldSendResponseThatContainsSolutions() {
         val request = FindKnightPathsRequestBuilder().build()
-        `when`(mockKnightPathsAlgorithm.execute(anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(SOLUTION)
+        `when`(mockPreferenceRepository.getPreferredMoves()).thenReturn(PREFERRED_MOVES)
+        `when`(mockKnightPathsAlgorithm.execute(anyInt(), anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(SOLUTION)
 
         val response = useCase.execute(request)
 
         val inOrder = inOrder(mockKnightPathRepository)
         inOrder.verify(mockKnightPathRepository).deleteSolutions()
         inOrder.verify(mockKnightPathRepository).save(SOLUTION)
-        assertThat(response.solutionErrorMessage, `is`(""))
+        assertThat(response.solutionErrorMessage, `is`(EMPTY_STRING))
     }
 }
