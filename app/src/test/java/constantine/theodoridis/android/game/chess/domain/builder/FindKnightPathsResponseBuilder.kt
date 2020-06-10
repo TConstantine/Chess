@@ -17,23 +17,23 @@
 package constantine.theodoridis.android.game.chess.domain.builder
 
 import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
-import constantine.theodoridis.android.game.chess.domain.response.GameResponse
+import constantine.theodoridis.android.game.chess.domain.response.FindKnightPathsResponse
 
-class GameResponseBuilder {
+class FindKnightPathsResponseBuilder {
     private var solutionErrorMessage = ""
     private var solutions = listOf<KnightPath>()
 
-    fun withSolutionErrorMessage(solutionErrorMessage: String): GameResponseBuilder {
+    fun withSolutionErrorMessage(solutionErrorMessage: String): FindKnightPathsResponseBuilder {
         this.solutionErrorMessage = solutionErrorMessage
         return this
     }
 
-    fun withSolutions(solutions: List<KnightPath>): GameResponseBuilder {
+    fun withSolutions(solutions: List<KnightPath>): FindKnightPathsResponseBuilder {
         this.solutions = solutions
         return this
     }
 
-    fun build(): GameResponse {
-        return GameResponse(solutionErrorMessage = solutionErrorMessage, solutions = solutions)
+    fun build(): FindKnightPathsResponse {
+        return FindKnightPathsResponse(solutionErrorMessage = solutionErrorMessage, solutions = solutions)
     }
 }

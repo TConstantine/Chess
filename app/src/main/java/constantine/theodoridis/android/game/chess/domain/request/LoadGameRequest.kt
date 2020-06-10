@@ -14,6 +14,6 @@
  *  limitations under the License.
  */
 
-package constantine.theodoridis.android.game.chess.presentation.game.model
+package constantine.theodoridis.android.game.chess.domain.request
 
-data class GameViewModel(val solutions: String)
+class LoadGameRequest

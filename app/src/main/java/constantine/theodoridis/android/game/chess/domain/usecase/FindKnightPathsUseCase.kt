@@ -21,15 +21,15 @@ import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
 import constantine.theodoridis.android.game.chess.domain.entity.KnightPathsAlgorithm
 import constantine.theodoridis.android.game.chess.domain.repository.KnightPathRepository
 import constantine.theodoridis.android.game.chess.domain.repository.StringRepository
-import constantine.theodoridis.android.game.chess.domain.request.GameRequest
-import constantine.theodoridis.android.game.chess.domain.response.GameResponse
+import constantine.theodoridis.android.game.chess.domain.request.FindKnightPathsRequest
+import constantine.theodoridis.android.game.chess.domain.response.FindKnightPathsResponse
 
 class FindKnightPathsUseCase(
     private val knightPathsAlgorithm: KnightPathsAlgorithm,
     private val stringRepository: StringRepository,
     private val knightPathRepository: KnightPathRepository
-) : UseCase<GameRequest, GameResponse> {
-    override fun execute(request: GameRequest): GameResponse {
+) : UseCase<FindKnightPathsRequest, FindKnightPathsResponse> {
+    override fun execute(request: FindKnightPathsRequest): FindKnightPathsResponse {
         var solutionErrorMessage = ""
         val solutions = knightPathsAlgorithm.execute(
             request.sourceX,
@@ -47,8 +47,8 @@ class FindKnightPathsUseCase(
         return createResponse(solutionErrorMessage, solutions)
     }
 
-    private fun createResponse(solutionErrorMessage: String, solutions: List<KnightPath>): GameResponse {
-        return GameResponse(
+    private fun createResponse(solutionErrorMessage: String, solutions: List<KnightPath>): FindKnightPathsResponse {
+        return FindKnightPathsResponse(
             solutionErrorMessage = solutionErrorMessage,
             solutions = solutions
         )

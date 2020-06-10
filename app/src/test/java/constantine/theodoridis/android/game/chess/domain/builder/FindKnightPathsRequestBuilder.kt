@@ -16,36 +16,36 @@
 
 package constantine.theodoridis.android.game.chess.domain.builder
 
-import constantine.theodoridis.android.game.chess.domain.request.GameRequest
+import constantine.theodoridis.android.game.chess.domain.request.FindKnightPathsRequest
 
-class GameRequestBuilder {
+class FindKnightPathsRequestBuilder {
     private var sourceX = 0
     private var sourceY = 0
     private var destinationX = 0
     private var destinationY = 0
 
-    fun withSourceX(sourceX: Int): GameRequestBuilder {
+    fun withSourceX(sourceX: Int): FindKnightPathsRequestBuilder {
         this.sourceX = sourceX
         return this
     }
 
-    fun withSourceY(sourceY: Int): GameRequestBuilder {
+    fun withSourceY(sourceY: Int): FindKnightPathsRequestBuilder {
         this.sourceY = sourceY
         return this
     }
 
-    fun withDestinationX(destinationX: Int): GameRequestBuilder {
+    fun withDestinationX(destinationX: Int): FindKnightPathsRequestBuilder {
         this.destinationX = destinationX
         return this
     }
 
-    fun withDestinationY(destinationY: Int): GameRequestBuilder {
+    fun withDestinationY(destinationY: Int): FindKnightPathsRequestBuilder {
         this.destinationY = destinationY
         return this
     }
 
-    fun build(): GameRequest {
-        return GameRequest(
+    fun build(): FindKnightPathsRequest {
+        return FindKnightPathsRequest(
             sourceX = sourceX,
             sourceY = sourceY,
             destinationX = destinationX,

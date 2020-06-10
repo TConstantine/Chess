@@ -16,13 +16,13 @@
 
 package constantine.theodoridis.android.game.chess.domain.usecase
 
-import constantine.theodoridis.android.game.chess.domain.builder.GameRequestBuilder
+import constantine.theodoridis.android.game.chess.domain.builder.FindKnightPathsRequestBuilder
 import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
 import constantine.theodoridis.android.game.chess.domain.entity.KnightPathsAlgorithm
 import constantine.theodoridis.android.game.chess.domain.repository.KnightPathRepository
 import constantine.theodoridis.android.game.chess.domain.repository.StringRepository
-import constantine.theodoridis.android.game.chess.domain.request.GameRequest
-import constantine.theodoridis.android.game.chess.domain.response.GameResponse
+import constantine.theodoridis.android.game.chess.domain.request.FindKnightPathsRequest
+import constantine.theodoridis.android.game.chess.domain.response.FindKnightPathsResponse
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -54,7 +54,7 @@ class FindKnightPathsUseCaseTest {
     @Mock
     private lateinit var mockKnightPathRepository: KnightPathRepository
 
-    private lateinit var useCase: UseCase<GameRequest, GameResponse>
+    private lateinit var useCase: UseCase<FindKnightPathsRequest, FindKnightPathsResponse>
 
     @Before
     fun setUp() {
@@ -67,7 +67,7 @@ class FindKnightPathsUseCaseTest {
 
     @Test
     fun shouldSendResponseThatContainsErrorMessage_whenSolutionsDoesNotExist() {
-        val request = GameRequestBuilder().build()
+        val request = FindKnightPathsRequestBuilder().build()
         `when`(mockKnightPathsAlgorithm.execute(anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(NO_SOLUTION)
         `when`(mockStringRepository.getString(anyInt())).thenReturn(SOLUTION_ERROR_MESSAGE)
 
@@ -78,7 +78,7 @@ class FindKnightPathsUseCaseTest {
 
     @Test
     fun shouldSendResponseThatContainsSolutions() {
-        val request = GameRequestBuilder().build()
+        val request = FindKnightPathsRequestBuilder().build()
         `when`(mockKnightPathsAlgorithm.execute(anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(SOLUTION)
 
         val response = useCase.execute(request)

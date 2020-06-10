@@ -16,17 +16,17 @@
 
 package constantine.theodoridis.android.game.chess.presentation.game.builder
 
-import constantine.theodoridis.android.game.chess.presentation.game.model.GameViewModel
+import constantine.theodoridis.android.game.chess.presentation.game.model.FindKnightPathsViewModel
 
-class GameViewModelBuilder {
+class FindKnightPathsViewModelBuilder {
     private var solutions = ""
 
-    fun withSolutions(solutions: String): GameViewModelBuilder {
+    fun withSolutions(solutions: String): FindKnightPathsViewModelBuilder {
         this.solutions = solutions
         return this
     }
 
-    fun build(): GameViewModel {
-        return GameViewModel(solutions = solutions)
+    fun build(): FindKnightPathsViewModel {
+        return FindKnightPathsViewModel(solutions = solutions)
     }
 }

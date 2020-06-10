@@ -14,8 +14,29 @@
  *  limitations under the License.
  */
 
-package constantine.theodoridis.android.game.chess.domain.response
+package constantine.theodoridis.android.game.chess.domain.builder
 
 import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
+import constantine.theodoridis.android.game.chess.domain.response.LoadGameResponse
 
-data class GameResponse(val solutionErrorMessage: String, val solutions: List<KnightPath>)
+class LoadGameResponseBuilder {
+    private var boardSize = 0
+    private var solutions = listOf<KnightPath>()
+
+    fun withBoardSize(boardSize: Int): LoadGameResponseBuilder {
+        this.boardSize = boardSize
+        return this
+    }
+
+    fun withSolutions(solutions: List<KnightPath>): LoadGameResponseBuilder {
+        this.solutions = solutions
+        return this
+    }
+
+    fun build(): LoadGameResponse {
+        return LoadGameResponse(
+            boardSize = boardSize,
+            solutions = solutions
+        )
+    }
+}

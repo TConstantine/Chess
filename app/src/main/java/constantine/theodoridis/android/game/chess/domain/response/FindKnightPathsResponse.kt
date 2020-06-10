@@ -14,11 +14,11 @@
  *  limitations under the License.
  */
 
-package constantine.theodoridis.android.game.chess.domain.request
+package constantine.theodoridis.android.game.chess.domain.response
 
-data class GameRequest(
-    val sourceX: Int,
-    val sourceY: Int,
-    val destinationX: Int,
-    val destinationY: Int
+import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
+
+data class FindKnightPathsResponse(
+    val solutionErrorMessage: String,
+    val solutions: List<KnightPath>
 )
