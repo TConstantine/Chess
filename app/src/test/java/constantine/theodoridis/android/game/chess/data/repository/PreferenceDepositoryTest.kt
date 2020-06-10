@@ -33,6 +33,8 @@ class PreferenceDepositoryTest {
         private const val LAST_PREFERRED_BOARD_SIZE_KEY = "Last preferred board size key"
         private const val BOARD_SIZE_KEY = "Board size key"
         private const val DEFAULT_BOARD_SIZE = 0
+        private const val MOVES_KEY = "Moves key"
+        private const val DEFAULT_MOVES = 0
     }
 
     @Rule
@@ -70,6 +72,16 @@ class PreferenceDepositoryTest {
         repository.getPreferredBoardSize()
 
         verify(mockPreferenceDataSource).getInt(BOARD_SIZE_KEY, DEFAULT_BOARD_SIZE)
+    }
+
+    @Test
+    fun shouldReturnPreferredMovesFromPreferenceDataSource() {
+        `when`(mockResourceDataSource.getString(anyInt())).thenReturn(MOVES_KEY)
+        `when`(mockResourceDataSource.getInteger(anyInt())).thenReturn(DEFAULT_MOVES)
+
+        repository.getPreferredMoves()
+
+        verify(mockPreferenceDataSource).getInt(MOVES_KEY, DEFAULT_MOVES)
     }
 
     @Test

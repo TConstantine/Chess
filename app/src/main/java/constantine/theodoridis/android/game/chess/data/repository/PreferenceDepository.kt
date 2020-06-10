@@ -40,7 +40,10 @@ class PreferenceDepository(
     }
 
     override fun getPreferredMoves(): Int {
-        TODO("Not yet implemented")
+        return preferenceDataSource.getInt(
+            resourceDataSource.getString(R.string.preferred_moves_key),
+            resourceDataSource.getInteger(R.integer.default_moves)
+        )
     }
 
     override fun hasLastPreferredBoardSize(): Boolean {
