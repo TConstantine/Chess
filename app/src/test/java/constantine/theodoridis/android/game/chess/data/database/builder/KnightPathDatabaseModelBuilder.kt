@@ -14,17 +14,19 @@
  *  limitations under the License.
  */
 
-package constantine.theodoridis.android.game.chess.data.database.model
+package constantine.theodoridis.android.game.chess.data.database.builder
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import constantine.theodoridis.android.game.chess.data.database.model.KnightPathDatabaseModel
 
-@Entity(tableName = "knightPath")
-data class KnightPathDatabaseModel(
-    @ColumnInfo
-    val path: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+class KnightPathDatabaseModelBuilder {
+    private var path = ""
+
+    fun withPath(path: String): KnightPathDatabaseModelBuilder {
+        this.path = path
+        return this
+    }
+
+    fun build(): KnightPathDatabaseModel {
+        return KnightPathDatabaseModel(path = path)
+    }
 }

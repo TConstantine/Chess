@@ -14,17 +14,22 @@
  *  limitations under the License.
  */
 
-package constantine.theodoridis.android.game.chess.data.database.model
+package constantine.theodoridis.android.game.chess.data.database.dao
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import constantine.theodoridis.android.game.chess.data.database.model.KnightPathDatabaseModel
 
-@Entity(tableName = "knightPath")
-data class KnightPathDatabaseModel(
-    @ColumnInfo
-    val path: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+@Dao
+interface KnightPathDao {
+    @Query("SELECT * from knightPath")
+    fun loadAll(): List<KnightPathDatabaseModel>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveAll(knightPaths: List<KnightPathDatabaseModel>)
+
+    @Query("DELETE FROM knightPath")
+    fun deleteAll()
 }

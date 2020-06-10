@@ -16,10 +16,19 @@
 
 package constantine.theodoridis.android.game.chess.data.datasource
 
+import constantine.theodoridis.android.game.chess.data.database.ApplicationDatabase
 import constantine.theodoridis.android.game.chess.data.database.model.KnightPathDatabaseModel
 
-interface DatabaseDataSource {
-    fun deleteSolutions()
-    fun loadSolutions(): List<KnightPathDatabaseModel>
-    fun save(databaseModel: List<KnightPathDatabaseModel>)
+class SQLiteDatabaseDataSource(private val database: ApplicationDatabase): DatabaseDataSource {
+    override fun deleteSolutions() {
+        database.knightPathDao().deleteAll()
+    }
+
+    override fun loadSolutions(): List<KnightPathDatabaseModel> {
+        return database.knightPathDao().loadAll()
+    }
+
+    override fun save(databaseModel: List<KnightPathDatabaseModel>) {
+        database.knightPathDao().saveAll(databaseModel)
+    }
 }

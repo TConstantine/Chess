@@ -16,9 +16,9 @@
 
 package constantine.theodoridis.android.game.chess.data.repository
 
-import constantine.theodoridis.android.game.chess.data.database.model.KnightPathDatabaseModel
+import constantine.theodoridis.android.game.chess.data.database.builder.KnightPathDatabaseModelBuilder
 import constantine.theodoridis.android.game.chess.data.datasource.DatabaseDataSource
-import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
+import constantine.theodoridis.android.game.chess.domain.builder.KnightPathBuilder
 import constantine.theodoridis.android.game.chess.domain.repository.KnightPathRepository
 import org.junit.Before
 import org.junit.Rule
@@ -29,13 +29,15 @@ import org.mockito.junit.MockitoJUnit
 
 class KnightPathDepositoryTest {
     companion object {
+        private val KNIGHT_PATH_BUILDER = KnightPathBuilder()
         private val SOLUTIONS = listOf(
-            KnightPath(arrayOf("a3", "b3")),
-            KnightPath(arrayOf("a4", "c3"))
+            KNIGHT_PATH_BUILDER.withPath(arrayOf("a3", "b3")).build(),
+            KNIGHT_PATH_BUILDER.withPath(arrayOf("a4", "c3")).build()
         )
+        private val KNIGHT_PATH_DATABASE_MODEL_BUILDER = KnightPathDatabaseModelBuilder()
         private val KNIGHT_PATH_DATABASE_MODEL = listOf(
-            KnightPathDatabaseModel("a3,b3"),
-            KnightPathDatabaseModel("a4,c3")
+            KNIGHT_PATH_DATABASE_MODEL_BUILDER.withPath("a3,b3").build(),
+            KNIGHT_PATH_DATABASE_MODEL_BUILDER.withPath("a4,c3").build()
         )
     }
     @Rule
