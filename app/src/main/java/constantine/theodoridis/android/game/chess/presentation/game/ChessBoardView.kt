@@ -22,31 +22,29 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import kotlin.math.min
 
 class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+    private var listener: OnTouchEventListener? = null
     private var size = 8
     private val outlinePaint = Paint()
     private val outline = Rect()
     private val tilePaint = Paint()
+    private val tileOutlinePaint = Paint()
     private val tile = Rect()
     private var tileSize = 0
+    private var sourceX = -1
+    private var sourceY = -1
+    private var destinationX = -1
+    private var destinationY = -1
 
     override fun onDraw(canvas: Canvas?) {
-        for (row in 0 until size) {
-            for (column in 0 until size) {
-                val x = calculateX(row)
-                val y = calculateY(column)
-                tile.set(x, y, x + tileSize, y + tileSize)
-                tilePaint.color = if (isEven(row, column)) Color.BLACK else Color.WHITE
-                canvas?.drawRect(tile, tilePaint)
-            }
-        }
-        outlinePaint.style = Paint.Style.STROKE
-        outlinePaint.strokeWidth = 5.0F
-        outline.set(0, 0, tileSize * size, tileSize * size)
-        canvas?.drawRect(outline, outlinePaint)
+        drawBoard(canvas)
+        drawOutline(canvas)
+        drawSource(canvas)
+        drawDestination(canvas)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -82,8 +80,52 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
         setMeasuredDimension(width, height)
     }
 
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val xCoordinate = event.x.toInt()
+        val yCoordinate = event.y.toInt()
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            // TODO: Keep x, y rectangle positions to avoid re-calculation
+            for (column in 0 until size) {
+                for (row in 0 until size) {
+                    val x = calculateX(column)
+                    val y = calculateY(row)
+                    tile.set(x, y, x + tileSize, y + tileSize)
+                    if (tile.contains(xCoordinate, yCoordinate)) {
+                        listener!!.onTileClick(row, column)
+                    }
+                }
+            }
+            performClick()
+            return true
+        }
+        return false
+    }
+
+    override fun performClick(): Boolean {
+        super.performClick()
+        return true
+    }
+
     fun setSize(size: Int) {
         this.size = size
+    }
+
+    fun setSource(row: Int, column: Int) {
+        sourceY = row
+        sourceX = column
+    }
+
+    fun setDestination(row: Int, column: Int) {
+        destinationY = row
+        destinationX = column
+    }
+
+    fun setOnTouchEventListener(listener: OnTouchEventListener) {
+        this.listener = listener
+    }
+
+    interface OnTouchEventListener {
+        fun onTileClick(row: Int, column: Int)
     }
 
     private fun calculateTileSize(width: Int, height: Int): Int {
@@ -108,5 +150,44 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
 
     private fun isEven(row: Int, column: Int): Boolean {
         return (row + column) % 2 == 0
+    }
+
+    private fun drawBoard(canvas: Canvas?) {
+        for (column in 0 until size) {
+            for (row in 0 until size) {
+                val x = calculateX(column)
+                val y = calculateY(row)
+                tile.set(x, y, x + tileSize, y + tileSize)
+                tilePaint.color = if (isEven(row, column)) Color.BLACK else Color.WHITE
+                canvas?.drawRect(tile, tilePaint)
+            }
+        }
+    }
+
+    private fun drawOutline(canvas: Canvas?) {
+        outlinePaint.style = Paint.Style.STROKE
+        outlinePaint.strokeWidth = 5.0F
+        outline.set(0, 0, tileSize * size, tileSize * size)
+        canvas?.drawRect(outline, outlinePaint)
+    }
+
+    private fun drawSource(canvas: Canvas?) {
+        if (sourceX >= 0 && sourceY >= 0) {
+            val x = calculateX(sourceX)
+            val y = calculateY(sourceY)
+            tile.set(x, y, x + tileSize, y + tileSize)
+            tileOutlinePaint.color = Color.GREEN
+            canvas?.drawRect(tile, tileOutlinePaint)
+        }
+    }
+
+    private fun drawDestination(canvas: Canvas?) {
+        if (destinationX >= 0 && destinationY >= 0) {
+            val x = calculateX(destinationX)
+            val y = calculateY(destinationY)
+            tile.set(x, y, x + tileSize, y + tileSize)
+            tileOutlinePaint.color = Color.RED
+            canvas?.drawRect(tile, tileOutlinePaint)
+        }
     }
 }

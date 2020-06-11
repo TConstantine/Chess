@@ -10,13 +10,15 @@ import androidx.preference.PreferenceManager
 import constantine.theodoridis.android.game.chess.R
 import constantine.theodoridis.android.game.chess.presentation.settings.SettingsActivity
 
-class GameActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+class GameActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, ChessBoardView.OnTouchEventListener {
     private lateinit var chessBoardView: ChessBoardView
+    private var clickCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         chessBoardView = findViewById(R.id.chess_board_view)
+        chessBoardView.setOnTouchEventListener(this)
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         val boardSize = sharedPreferences!!.getInt(
@@ -54,6 +56,20 @@ class GameActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             )
             chessBoardView.setSize(boardSize)
             chessBoardView.invalidate()
+        }
+    }
+
+    override fun onTileClick(row: Int, column: Int) {
+        if (clickCounter < 2) {
+            if (clickCounter == 0) {
+                chessBoardView.setSource(row, column)
+                chessBoardView.invalidate()
+            }
+            if (clickCounter == 1) {
+                chessBoardView.setDestination(row, column)
+                chessBoardView.invalidate()
+            }
+            clickCounter++
         }
     }
 }
