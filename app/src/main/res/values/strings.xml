@@ -8,7 +8,6 @@
     <string name="default_moves" translatable="false">3</string>
     <string name="moves_hint">Enter maximum moves</string>
     <string name="moves_error_message">Maximum moves should be greater than 0</string>
-    <string name="start_label">Start</string>
     <string name="solution_error_message">No solution has been found</string>
     <string name="last_saved_board_size_key" translatable="false">LAST_SAVED_BOARD_SIZE_KEY</string>
     <string name="action_settings">Settings</string>
