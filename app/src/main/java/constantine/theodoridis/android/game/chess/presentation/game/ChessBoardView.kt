@@ -120,6 +120,13 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
         destinationX = column
     }
 
+    fun reset() {
+        sourceX = -1
+        sourceY = -1
+        destinationX = -1
+        destinationY = -1
+    }
+
     fun setOnTouchEventListener(listener: OnTouchEventListener) {
         this.listener = listener
     }

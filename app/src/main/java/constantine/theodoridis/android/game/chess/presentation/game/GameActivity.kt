@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import constantine.theodoridis.android.game.chess.R
@@ -12,12 +14,16 @@ import constantine.theodoridis.android.game.chess.presentation.settings.Settings
 
 class GameActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, ChessBoardView.OnTouchEventListener {
     private lateinit var chessBoardView: ChessBoardView
+    private lateinit var resetButton: Button
+    private lateinit var solutionView: TextView
     private var clickCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         chessBoardView = findViewById(R.id.chess_board_view)
+        resetButton = findViewById(R.id.reset)
+        solutionView = findViewById(R.id.solutions)
         chessBoardView.setOnTouchEventListener(this)
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -26,6 +32,12 @@ class GameActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             resources.getInteger(R.integer.default_board_size)
         )
         chessBoardView.setSize(boardSize)
+        resetButton.setOnClickListener {
+            clickCounter = 0
+            chessBoardView.reset()
+            chessBoardView.invalidate()
+            solutionView.text = ""
+        }
     }
 
     override fun onDestroy() {
