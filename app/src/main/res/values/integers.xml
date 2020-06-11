@@ -2,4 +2,7 @@
 <resources>
     <integer name="default_board_size">8</integer>
     <integer name="default_moves">3</integer>
+    <integer name="maximum_board_size">16</integer>
+    <integer name="minimum_board_size">6</integer>
+    <integer name="minimum_moves">1</integer>
 </resources>

@@ -13,4 +13,9 @@
     <string name="last_preferred_board_size_key" translatable="false">LAST_PREFERRED_BOARD_SIZE_KEY</string>
     <string name="preferred_board_size_key" translatable="false">PREFERRED_BOARD_SIZE_KEY</string>
     <string name="preferred_moves_key" translatable="false">PREFERRED_MOVES_KEY</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">@string/action_settings</string>
+    <string name="board_size_preference_key" translatable="false">BOARD_SIZE_PREFERENCE_KEY</string>
+    <string name="moves_preference_key" translatable="false">MOVES_PREFERENCE_KEY</string>
+    <string name="reset">Reset</string>
 </resources>

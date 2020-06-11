@@ -25,26 +25,61 @@ import android.util.AttributeSet
 import android.view.View
 import kotlin.math.min
 
-class ChessBoardView(context: Context, attrs: AttributeSet): View(context, attrs) {
-    private var size = 0
+class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+    private var size = 8
+    private val outlinePaint = Paint()
+    private val outline = Rect()
     private val tilePaint = Paint()
     private val tile = Rect()
     private var tileSize = 0
-    private var xOrigin = 0
-    private var yOrigin = 0
 
     override fun onDraw(canvas: Canvas?) {
-        tileSize = calculateTileSize(width, height)
-        calculateOrigins(width, height)
         for (row in 0 until size) {
             for (column in 0 until size) {
                 val x = calculateX(row)
                 val y = calculateY(column)
                 tile.set(x, y, x + tileSize, y + tileSize)
-                tilePaint.color = if(isEven(row, column)) Color.BLACK else Color.WHITE
+                tilePaint.color = if (isEven(row, column)) Color.BLACK else Color.WHITE
                 canvas?.drawRect(tile, tilePaint)
             }
         }
+        outlinePaint.style = Paint.Style.STROKE
+        outlinePaint.strokeWidth = 5.0F
+        outline.set(0, 0, tileSize * size, tileSize * size)
+        canvas?.drawRect(outline, outlinePaint)
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
+        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
+        val width: Int
+        val height: Int
+        tileSize = calculateTileSize(widthSize, heightSize)
+        val desiredWidth = tileSize * size
+        val desiredHeight = tileSize * size
+        width = when (MeasureSpec.getMode(widthMeasureSpec)) {
+            MeasureSpec.EXACTLY -> {
+                widthSize
+            }
+            MeasureSpec.AT_MOST -> {
+                min(desiredWidth, widthSize)
+            }
+            else -> {
+                desiredWidth
+            }
+        }
+        height = when (MeasureSpec.getMode(heightMeasureSpec)) {
+            MeasureSpec.EXACTLY -> {
+                heightSize
+            }
+            MeasureSpec.AT_MOST -> {
+                min(desiredHeight, heightSize)
+            }
+            else -> {
+                desiredHeight
+            }
+        }
+        setMeasuredDimension(width, height)
     }
 
     fun setSize(size: Int) {
@@ -54,6 +89,7 @@ class ChessBoardView(context: Context, attrs: AttributeSet): View(context, attrs
     private fun calculateTileSize(width: Int, height: Int): Int {
         return min(calculateTileWidth(width), calculateTileHeight(height))
     }
+
     private fun calculateTileWidth(width: Int): Int {
         return width / size
     }
@@ -63,16 +99,11 @@ class ChessBoardView(context: Context, attrs: AttributeSet): View(context, attrs
     }
 
     private fun calculateX(x: Int): Int {
-        return xOrigin + tileSize * x
+        return tileSize * x
     }
 
     private fun calculateY(y: Int): Int {
-        return yOrigin + tileSize * (size - 1 - y)
-    }
-
-    private fun calculateOrigins(width: Int, height: Int) {
-        xOrigin = (width - tileSize * size) / 2
-        yOrigin = (height - tileSize * size) / 2
+        return tileSize * y
     }
 
     private fun isEven(row: Int, column: Int): Boolean {

@@ -1,0 +1,17 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SeekBarPreference
+        android:defaultValue="@integer/default_board_size"
+        android:key="@string/board_size_preference_key"
+        android:max="@integer/maximum_board_size"
+        android:title="@string/board_size_label"
+        app:showSeekBarValue="true" />
+
+    <SeekBarPreference
+        android:defaultValue="@integer/default_moves"
+        android:key="@string/moves_preference_key"
+        android:title="@string/moves_label"
+        app:showSeekBarValue="true" />
+
+</PreferenceScreen>
