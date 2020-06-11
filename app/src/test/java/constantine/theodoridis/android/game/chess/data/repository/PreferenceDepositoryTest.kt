@@ -16,6 +16,7 @@
 
 package constantine.theodoridis.android.game.chess.data.repository
 
+import constantine.theodoridis.android.game.chess.R
 import constantine.theodoridis.android.game.chess.data.datasource.PreferenceDataSource
 import constantine.theodoridis.android.game.chess.data.datasource.ResourceDataSource
 import constantine.theodoridis.android.game.chess.domain.repository.PreferenceRepository
@@ -62,6 +63,8 @@ class PreferenceDepositoryTest {
 
         repository.getLastPreferredBoardSize()
 
+        verify(mockResourceDataSource).getString(R.string.last_saved_board_size_key)
+        verify(mockResourceDataSource).getInteger(R.integer.default_board_size)
         verify(mockPreferenceDataSource).getInt(LAST_PREFERRED_BOARD_SIZE_KEY, DEFAULT_BOARD_SIZE)
     }
 
@@ -72,6 +75,8 @@ class PreferenceDepositoryTest {
 
         repository.getPreferredBoardSize()
 
+        verify(mockResourceDataSource).getString(R.string.board_size_preference_key)
+        verify(mockResourceDataSource).getInteger(R.integer.default_board_size)
         verify(mockPreferenceDataSource).getInt(PREFERRED_BOARD_SIZE_KEY, DEFAULT_BOARD_SIZE)
     }
 
@@ -82,6 +87,8 @@ class PreferenceDepositoryTest {
 
         repository.getPreferredMoves()
 
+        verify(mockResourceDataSource).getString(R.string.moves_preference_key)
+        verify(mockResourceDataSource).getInteger(R.integer.default_moves)
         verify(mockPreferenceDataSource).getInt(MOVES_KEY, DEFAULT_MOVES)
     }
 
@@ -91,6 +98,7 @@ class PreferenceDepositoryTest {
 
         repository.hasLastPreferredBoardSize()
 
+        verify(mockResourceDataSource).getString(R.string.last_saved_board_size_key)
         verify(mockPreferenceDataSource).contains(LAST_PREFERRED_BOARD_SIZE_KEY)
     }
 
@@ -103,6 +111,9 @@ class PreferenceDepositoryTest {
 
         repository.saveLastPreferredBoardSize()
 
+        verify(mockResourceDataSource).getString(R.string.last_saved_board_size_key)
+        verify(mockResourceDataSource).getString(R.string.board_size_preference_key)
+        verify(mockResourceDataSource).getInteger(R.integer.default_board_size)
         verify(mockPreferenceDataSource).putInt(LAST_PREFERRED_BOARD_SIZE_KEY, PREFERRED_BOARD_SIZE)
     }
 }

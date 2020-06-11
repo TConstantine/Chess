@@ -27,34 +27,34 @@ class PreferenceDepository(
 ) : PreferenceRepository {
     override fun getLastPreferredBoardSize(): Int {
         return preferenceDataSource.getInt(
-            resourceDataSource.getString(R.string.last_preferred_board_size_key),
+            resourceDataSource.getString(R.string.last_saved_board_size_key),
             resourceDataSource.getInteger(R.integer.default_board_size)
         )
     }
 
     override fun getPreferredBoardSize(): Int {
         return preferenceDataSource.getInt(
-            resourceDataSource.getString(R.string.preferred_board_size_key),
+            resourceDataSource.getString(R.string.board_size_preference_key),
             resourceDataSource.getInteger(R.integer.default_board_size)
         )
     }
 
     override fun getPreferredMoves(): Int {
         return preferenceDataSource.getInt(
-            resourceDataSource.getString(R.string.preferred_moves_key),
+            resourceDataSource.getString(R.string.moves_preference_key),
             resourceDataSource.getInteger(R.integer.default_moves)
         )
     }
 
     override fun hasLastPreferredBoardSize(): Boolean {
         return preferenceDataSource.contains(
-            resourceDataSource.getString(R.string.last_preferred_board_size_key)
+            resourceDataSource.getString(R.string.last_saved_board_size_key)
         )
     }
 
     override fun saveLastPreferredBoardSize() {
         preferenceDataSource.putInt(
-            resourceDataSource.getString(R.string.last_preferred_board_size_key),
+            resourceDataSource.getString(R.string.last_saved_board_size_key),
             getPreferredBoardSize()
         )
     }
