@@ -55,8 +55,8 @@ class GamePresenterTest {
         private const val DESTINATION_Y = 0
         private val KNIGHT_PATH_BUILDER = KnightPathBuilder()
         private val SOLUTIONS = listOf(
-            KNIGHT_PATH_BUILDER.withPath(arrayOf("a3", "b3")).build(),
-            KNIGHT_PATH_BUILDER.withPath(arrayOf("a4", "c3")).build()
+            KNIGHT_PATH_BUILDER.withPath(mutableListOf("a3", "b3")).build(),
+            KNIGHT_PATH_BUILDER.withPath(mutableListOf("a4", "c3")).build()
         )
         private val NO_SOLUTIONS = listOf<KnightPath>()
     }

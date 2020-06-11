@@ -16,7 +16,19 @@
 
 package constantine.theodoridis.android.game.chess.domain.entity
 
-class BFSAlgorithm: KnightPathsAlgorithm {
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
+
+class BFSAlgorithm : KnightPathsAlgorithm {
+    companion object {
+        private const val MAXIMUM_POSSIBLE_MOVES = 8
+        private val POSSIBLE_VERTICAL_MOVES = intArrayOf(2, 2, -2, -2, 1, 1, -1, -1)
+        private val POSSIBLE_HORIZONTAL_MOVES = intArrayOf(-1, 1, 1, -1, 2, -2, 2, -2)
+        private val HORIZONTAL_MAPPINGS = listOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p")
+        private val VERTICAL_MAPPINGS = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)
+    }
+
     override fun execute(
         boardSize: Int,
         moves: Int,
@@ -25,9 +37,49 @@ class BFSAlgorithm: KnightPathsAlgorithm {
         destinationX: Int,
         destinationY: Int
     ): List<KnightPath> {
-        return listOf(
-            KnightPath(arrayOf("a3", "b3")),
-            KnightPath(arrayOf("a4", "c3"))
-        )
+        val paths: MutableList<KnightPath> = ArrayList()
+        val source = Node(sourceX, sourceY)
+        val destination = Node(destinationX, destinationY)
+        val visitedCells: MutableSet<Node> = HashSet()
+        val queue: Queue<Node> = ArrayDeque()
+        queue.add(source)
+        while (!queue.isEmpty()) {
+            val node = queue.poll()
+            if (node!!.distance > moves) {
+                return paths
+            }
+            if (node.x == destination.x && node.y == destination.y && moves == node.distance) {
+                val path = getPath(node, mutableListOf(), boardSize)
+                path.reverse()
+                paths.add(KnightPath(path))
+            }
+            if (!visitedCells.contains(node)) {
+                visitedCells.add(node)
+                for (i in 0 until MAXIMUM_POSSIBLE_MOVES) {
+                    val x = node.x + POSSIBLE_VERTICAL_MOVES[i]
+                    val y = node.y + POSSIBLE_HORIZONTAL_MOVES[i]
+                    if (isValid(x, y, boardSize)) {
+                        queue.add(Node(x, y, node.distance + 1, node))
+                    }
+                }
+            }
+        }
+        return paths
+    }
+
+    private fun isValid(x: Int, y: Int, boardSize: Int): Boolean {
+        return !(x < 0 || y < 0 || x >= boardSize || y >= boardSize)
+    }
+
+    private fun getPath(node: Node?, path: MutableList<String>, boardSize: Int): MutableList<String> {
+        if (node != null) {
+            path.add(algebraicNotation(node, boardSize))
+            getPath(node.parent, path, boardSize)
+        }
+        return path
+    }
+
+    private fun algebraicNotation(node: Node, boardSize: Int): String {
+        return "N${HORIZONTAL_MAPPINGS[node.y]}${VERTICAL_MAPPINGS[boardSize - 1 - node.x]}"
     }
 }

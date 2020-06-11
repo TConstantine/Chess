@@ -16,19 +16,4 @@
 
 package constantine.theodoridis.android.game.chess.domain.entity
 
-data class KnightPath(val path: Array<String>) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as KnightPath
-
-        if (!path.contentEquals(other.path)) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return path.contentHashCode()
-    }
-}
+data class KnightPath(val path: MutableList<String>)

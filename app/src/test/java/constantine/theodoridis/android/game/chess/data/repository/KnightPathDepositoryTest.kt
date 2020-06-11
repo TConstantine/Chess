@@ -34,8 +34,8 @@ class KnightPathDepositoryTest {
     companion object {
         private val KNIGHT_PATH_BUILDER = KnightPathBuilder()
         private val SOLUTIONS = listOf(
-            KNIGHT_PATH_BUILDER.withPath(arrayOf("a3", "b3")).build(),
-            KNIGHT_PATH_BUILDER.withPath(arrayOf("a4", "c3")).build()
+            KNIGHT_PATH_BUILDER.withPath(mutableListOf("a3", "b3")).build(),
+            KNIGHT_PATH_BUILDER.withPath(mutableListOf("a4", "c3")).build()
         )
         private val KNIGHT_PATH_DATABASE_MODEL_BUILDER = KnightPathDatabaseModelBuilder()
         private val KNIGHT_PATH_DATABASE_MODEL = listOf(

@@ -19,9 +19,9 @@ package constantine.theodoridis.android.game.chess.domain.builder
 import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
 
 class KnightPathBuilder {
-    private var path = arrayOf<String>()
+    private var path = mutableListOf<String>()
 
-    fun withPath(path: Array<String>): KnightPathBuilder {
+    fun withPath(path: MutableList<String>): KnightPathBuilder {
         this.path = path
         return this
     }
