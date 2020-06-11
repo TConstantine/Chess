@@ -38,7 +38,12 @@ import org.mockito.junit.MockitoJUnit
 
 class FindKnightPathsUseCaseTest {
     companion object {
+        private const val PREFERRED_BOARD_SIZE = 0
         private const val PREFERRED_MOVES = 0
+        private const val SOURCE_X = 0
+        private const val SOURCE_Y = 0
+        private const val DESTINATION_X = 0
+        private const val DESTINATION_Y = 0
         private const val SOLUTION_ERROR_MESSAGE = "Solution error message"
         private const val EMPTY_STRING = ""
         private val NO_SOLUTION = listOf<KnightPath>()
@@ -76,8 +81,9 @@ class FindKnightPathsUseCaseTest {
     @Test
     fun shouldSendResponseThatContainsErrorMessage_whenSolutionsDoesNotExist() {
         val request = FindKnightPathsRequestBuilder().build()
+        `when`(mockPreferenceRepository.getPreferredBoardSize()).thenReturn(PREFERRED_BOARD_SIZE)
         `when`(mockPreferenceRepository.getPreferredMoves()).thenReturn(PREFERRED_MOVES)
-        `when`(mockKnightPathsAlgorithm.execute(anyInt(), anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(NO_SOLUTION)
+        `when`(mockKnightPathsAlgorithm.execute(anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(NO_SOLUTION)
         `when`(mockStringRepository.getSolutionErrorMessage()).thenReturn(SOLUTION_ERROR_MESSAGE)
 
         val response = useCase.execute(request)
@@ -88,15 +94,18 @@ class FindKnightPathsUseCaseTest {
     @Test
     fun shouldSendResponseThatContainsSolutions() {
         val request = FindKnightPathsRequestBuilder().build()
+        `when`(mockPreferenceRepository.getPreferredBoardSize()).thenReturn(PREFERRED_BOARD_SIZE)
         `when`(mockPreferenceRepository.getPreferredMoves()).thenReturn(PREFERRED_MOVES)
-        `when`(mockKnightPathsAlgorithm.execute(anyInt(), anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(SOLUTION)
+        `when`(mockKnightPathsAlgorithm.execute(anyInt(), anyInt(), anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(SOLUTION)
 
         val response = useCase.execute(request)
 
         val inOrder = inOrder(mockKnightPathRepository, mockPreferenceRepository)
         inOrder.verify(mockKnightPathRepository).deleteSolutions()
         inOrder.verify(mockKnightPathRepository).save(SOLUTION)
-        inOrder.verify(mockPreferenceRepository).saveLastPreferredBoardSize()
+        inOrder.verify(mockPreferenceRepository).savePreferredBoardSize(PREFERRED_BOARD_SIZE)
+        inOrder.verify(mockPreferenceRepository).saveSource(SOURCE_X, SOURCE_Y)
+        inOrder.verify(mockPreferenceRepository).saveDestination(DESTINATION_X, DESTINATION_Y)
         assertThat(response.solutionErrorMessage, `is`(EMPTY_STRING))
     }
 }

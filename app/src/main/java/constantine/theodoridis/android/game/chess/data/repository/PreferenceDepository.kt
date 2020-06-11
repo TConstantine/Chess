@@ -52,10 +52,32 @@ class PreferenceDepository(
         )
     }
 
-    override fun saveLastPreferredBoardSize() {
+    override fun saveDestination(destinationX: Int, destinationY: Int) {
+        preferenceDataSource.putInt(
+            resourceDataSource.getString(R.string.last_saved_destination_x_key),
+            destinationX
+        )
+        preferenceDataSource.putInt(
+            resourceDataSource.getString(R.string.last_saved_destination_y_key),
+            destinationY
+        )
+    }
+
+    override fun savePreferredBoardSize(boardSize: Int) {
         preferenceDataSource.putInt(
             resourceDataSource.getString(R.string.last_saved_board_size_key),
-            getPreferredBoardSize()
+            boardSize
+        )
+    }
+
+    override fun saveSource(sourceX: Int, sourceY: Int) {
+        preferenceDataSource.putInt(
+            resourceDataSource.getString(R.string.last_saved_source_x_key),
+            sourceX
+        )
+        preferenceDataSource.putInt(
+            resourceDataSource.getString(R.string.last_saved_source_y_key),
+            sourceY
         )
     }
 }

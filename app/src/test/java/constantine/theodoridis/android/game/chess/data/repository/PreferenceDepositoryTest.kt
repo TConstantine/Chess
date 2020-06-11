@@ -37,6 +37,14 @@ class PreferenceDepositoryTest {
         private const val PREFERRED_BOARD_SIZE = 0
         private const val MOVES_KEY = "Moves key"
         private const val DEFAULT_MOVES = 0
+        private const val LAST_SAVED_SOURCE_X_KEY = "Last saved source x key"
+        private const val LAST_SAVED_SOURCE_Y_KEY = "Last saved source y key"
+        private const val SOURCE_X = 0
+        private const val SOURCE_Y = 0
+        private const val LAST_SAVED_DESTINATION_X_KEY = "Last saved destination x key"
+        private const val LAST_SAVED_DESTINATION_Y_KEY = "Last saved destination y key"
+        private const val DESTINATION_X = 0
+        private const val DESTINATION_Y = 0
     }
 
     @Rule
@@ -103,17 +111,40 @@ class PreferenceDepositoryTest {
     }
 
     @Test
-    fun shouldSaveLastPreferredBoardSizeInPreferenceDataSource() {
+    fun shouldSaveDestinationInPreferenceDataSource() {
         `when`(mockResourceDataSource.getString(anyInt()))
-            .thenReturn(LAST_PREFERRED_BOARD_SIZE_KEY)
-            .thenReturn(PREFERRED_BOARD_SIZE_KEY)
-        `when`(mockResourceDataSource.getInteger(anyInt())).thenReturn(DEFAULT_BOARD_SIZE)
+            .thenReturn(LAST_SAVED_DESTINATION_X_KEY)
+            .thenReturn(LAST_SAVED_DESTINATION_Y_KEY)
 
-        repository.saveLastPreferredBoardSize()
+        repository.saveDestination(DESTINATION_X, DESTINATION_Y)
+
+        verify(mockResourceDataSource).getString(R.string.last_saved_destination_x_key)
+        verify(mockPreferenceDataSource).putInt(LAST_SAVED_DESTINATION_X_KEY, DESTINATION_X)
+        verify(mockResourceDataSource).getString(R.string.last_saved_destination_y_key)
+        verify(mockPreferenceDataSource).putInt(LAST_SAVED_DESTINATION_Y_KEY, DESTINATION_Y)
+    }
+
+    @Test
+    fun shouldSavePreferredBoardSizeInPreferenceDataSource() {
+        `when`(mockResourceDataSource.getString(anyInt())).thenReturn(LAST_PREFERRED_BOARD_SIZE_KEY)
+
+        repository.savePreferredBoardSize(PREFERRED_BOARD_SIZE)
 
         verify(mockResourceDataSource).getString(R.string.last_saved_board_size_key)
-        verify(mockResourceDataSource).getString(R.string.board_size_preference_key)
-        verify(mockResourceDataSource).getInteger(R.integer.default_board_size)
         verify(mockPreferenceDataSource).putInt(LAST_PREFERRED_BOARD_SIZE_KEY, PREFERRED_BOARD_SIZE)
+    }
+
+    @Test
+    fun shouldSaveSourceInPreferenceDataSource() {
+        `when`(mockResourceDataSource.getString(anyInt()))
+            .thenReturn(LAST_SAVED_SOURCE_X_KEY)
+            .thenReturn(LAST_SAVED_SOURCE_Y_KEY)
+
+        repository.saveSource(SOURCE_X, SOURCE_Y)
+
+        verify(mockResourceDataSource).getString(R.string.last_saved_source_x_key)
+        verify(mockPreferenceDataSource).putInt(LAST_SAVED_SOURCE_X_KEY, SOURCE_X)
+        verify(mockResourceDataSource).getString(R.string.last_saved_source_y_key)
+        verify(mockPreferenceDataSource).putInt(LAST_SAVED_SOURCE_Y_KEY, SOURCE_Y)
     }
 }

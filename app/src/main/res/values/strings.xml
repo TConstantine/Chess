@@ -15,4 +15,8 @@
     <string name="board_size_preference_key" translatable="false">BOARD_SIZE_PREFERENCE_KEY</string>
     <string name="moves_preference_key" translatable="false">MOVES_PREFERENCE_KEY</string>
     <string name="reset">Reset</string>
+    <string name="last_saved_source_x_key" translatable="false">LAST_SAVED_SOURCE_X_KEY</string>
+    <string name="last_saved_source_y_key" translatable="false">LAST_SAVED_SOURCE_Y_KEY</string>
+    <string name="last_saved_destination_x_key" translatable="false">LAST_SAVED_DESTINATION_X_KEY</string>
+    <string name="last_saved_destination_y_key" translatable="false">LAST_SAVED_DESTINATION_Y_KEY</string>
 </resources>

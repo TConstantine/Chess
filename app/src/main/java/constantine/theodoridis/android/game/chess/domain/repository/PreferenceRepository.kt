@@ -21,5 +21,7 @@ interface PreferenceRepository {
     fun getPreferredBoardSize(): Int
     fun getPreferredMoves(): Int
     fun hasLastPreferredBoardSize(): Boolean
-    fun saveLastPreferredBoardSize()
+    fun saveDestination(destinationX: Int, destinationY: Int)
+    fun savePreferredBoardSize(boardSize: Int)
+    fun saveSource(sourceX: Int, sourceY: Int)
 }

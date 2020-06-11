@@ -31,9 +31,11 @@ class FindKnightPathsUseCase(
     private val knightPathRepository: KnightPathRepository
 ) : UseCase<FindKnightPathsRequest, FindKnightPathsResponse> {
     override fun execute(request: FindKnightPathsRequest): FindKnightPathsResponse {
+        val boardSize = preferenceRepository.getPreferredBoardSize()
         val moves = preferenceRepository.getPreferredMoves()
         var solutionErrorMessage = ""
         val solutions = knightPathsAlgorithm.execute(
+            boardSize,
             moves,
             request.sourceX,
             request.sourceY,
@@ -46,7 +48,9 @@ class FindKnightPathsUseCase(
         else {
             knightPathRepository.deleteSolutions()
             knightPathRepository.save(solutions)
-            preferenceRepository.saveLastPreferredBoardSize()
+            preferenceRepository.savePreferredBoardSize(boardSize)
+            preferenceRepository.saveSource(request.sourceX, request.sourceY)
+            preferenceRepository.saveDestination(request.destinationX, request.destinationY)
         }
         return createResponse(solutionErrorMessage, solutions)
     }

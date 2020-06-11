@@ -18,6 +18,7 @@ package constantine.theodoridis.android.game.chess.domain.entity
 
 class BFSAlgorithm: KnightPathsAlgorithm {
     override fun execute(
+        boardSize: Int,
         moves: Int,
         sourceX: Int,
         sourceY: Int,
