@@ -16,13 +16,13 @@
 
 package constantine.theodoridis.android.game.chess.di
 
-import constantine.theodoridis.android.game.chess.presentation.game.GameActivity
+import constantine.theodoridis.android.game.chess.presentation.game.GameFragment
 
 class AndroidInjection {
 	companion object {
-		fun inject(target: GameActivity) {
-			DaggerActivityComponent.builder()
-				.activityModule(ActivityModule(target.applicationContext))
+		fun inject(target: GameFragment) {
+			DaggerFragmentComponent.builder()
+				.activityModule(ActivityModule(target.requireContext()))
                 .schedulerModule(SchedulerModule())
                 .presenterModule(PresenterModule())
                 .useCaseModule(UseCaseModule())

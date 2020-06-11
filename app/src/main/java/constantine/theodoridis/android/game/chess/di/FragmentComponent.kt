@@ -16,7 +16,7 @@
 
 package constantine.theodoridis.android.game.chess.di
 
-import constantine.theodoridis.android.game.chess.presentation.game.GameActivity
+import constantine.theodoridis.android.game.chess.presentation.game.GameFragment
 import dagger.Component
 
 @Component(modules = [
@@ -28,6 +28,6 @@ import dagger.Component
 	RepositoryModule::class,
 	DataSourceModule::class
 ])
-interface ActivityComponent {
-	fun inject(target: GameActivity)
+interface FragmentComponent {
+	fun inject(target: GameFragment)
 }
