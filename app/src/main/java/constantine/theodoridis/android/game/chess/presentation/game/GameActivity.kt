@@ -25,25 +25,13 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
-import androidx.room.Room
 import constantine.theodoridis.android.game.chess.R
-import constantine.theodoridis.android.game.chess.data.database.ApplicationDatabase
-import constantine.theodoridis.android.game.chess.data.datasource.ResourcesDataSource
-import constantine.theodoridis.android.game.chess.data.datasource.SQLiteDatabaseDataSource
-import constantine.theodoridis.android.game.chess.data.datasource.SharedPreferencesDataSource
-import constantine.theodoridis.android.game.chess.data.repository.KnightPathDepository
-import constantine.theodoridis.android.game.chess.data.repository.PreferenceDepository
-import constantine.theodoridis.android.game.chess.data.repository.StringDepository
-import constantine.theodoridis.android.game.chess.domain.entity.BFSAlgorithm
-import constantine.theodoridis.android.game.chess.domain.usecase.FindKnightPathsUseCase
-import constantine.theodoridis.android.game.chess.domain.usecase.LoadGameUseCase
+import constantine.theodoridis.android.game.chess.di.AndroidInjection
 import constantine.theodoridis.android.game.chess.presentation.game.model.FindKnightPathsViewModel
 import constantine.theodoridis.android.game.chess.presentation.game.model.LoadGameViewModel
 import constantine.theodoridis.android.game.chess.presentation.settings.SettingsActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
+import javax.inject.Inject
 
 class GameActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, ChessBoardView.OnTouchEventListener {
     companion object {
@@ -56,9 +44,12 @@ class GameActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private var clickCounter = 0
     private var sourceX = -1
     private var sourceY = -1
-    private lateinit var presenter: GamePresenter
+
+    @Inject
+    lateinit var presenter: GamePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         chessBoardView = findViewById(R.id.chess_board_view)
@@ -73,46 +64,6 @@ class GameActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             chessBoardView.invalidate()
             solutionView.text = ""
         }
-        val database = Room.databaseBuilder(
-            applicationContext,
-            ApplicationDatabase::class.java,
-            "chess"
-        ).build()
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-        val resourceDataSource = ResourcesDataSource(resources)
-        val preferenceDataSource = SharedPreferencesDataSource(sharedPreferences)
-        val databaseDataSource = SQLiteDatabaseDataSource(database)
-        val preferenceRepository = PreferenceDepository(
-            resourceDataSource,
-            preferenceDataSource
-        )
-        val knightPathRepository = KnightPathDepository(databaseDataSource)
-        val stringRepository = StringDepository(resourceDataSource)
-        val knightPathsAlgorithm = BFSAlgorithm()
-        val loadGameUseCase = LoadGameUseCase(
-            preferenceRepository,
-            knightPathRepository
-        )
-        val findKnightPathsUseCase = FindKnightPathsUseCase(
-            preferenceRepository,
-            knightPathsAlgorithm,
-            stringRepository,
-            knightPathRepository
-        )
-        presenter = ViewModelProvider(this, object : ViewModelProvider.NewInstanceFactory() {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                if (modelClass == GamePresenter::class.java) {
-                    return GamePresenter(
-                        loadGameUseCase,
-                        findKnightPathsUseCase,
-                        AndroidSchedulers.mainThread()
-                    ) as T
-                }
-                throw IllegalArgumentException("Factory cannot create ViewModel of type ${modelClass.simpleName}")
-            }
-        }).get(GamePresenter::class.java)
         presenter.loadGameViewModelObservable().observe(this, Observer { viewModel ->
             onLoadGame(viewModel)
         })
