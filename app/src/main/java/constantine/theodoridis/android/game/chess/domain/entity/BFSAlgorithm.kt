@@ -14,6 +14,19 @@
  *  limitations under the License.
  */
 
-package constantine.theodoridis.android.game.chess.domain.request
+package constantine.theodoridis.android.game.chess.domain.entity
 
-data class MainMenuRequest(val boardSize: String, val moves: String)
+class BFSAlgorithm: KnightPathsAlgorithm {
+    override fun execute(
+        moves: Int,
+        sourceX: Int,
+        sourceY: Int,
+        destinationX: Int,
+        destinationY: Int
+    ): List<KnightPath> {
+        return listOf(
+            KnightPath(arrayOf("a3", "b3")),
+            KnightPath(arrayOf("a4", "c3"))
+        )
+    }
+}
