@@ -20,5 +20,9 @@ import constantine.theodoridis.android.game.chess.domain.entity.KnightPath
 
 data class LoadGameResponse(
     val boardSize: Int,
+    val sourceX: Int,
+    val sourceY: Int,
+    val destinationX: Int,
+    val destinationY: Int,
     val solutions: List<KnightPath>
 )

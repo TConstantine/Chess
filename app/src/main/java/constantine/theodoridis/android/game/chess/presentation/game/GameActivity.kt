@@ -46,6 +46,10 @@ import constantine.theodoridis.android.game.chess.presentation.settings.Settings
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 class GameActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, ChessBoardView.OnTouchEventListener {
+    companion object {
+        private const val EMPTY_STRING = ""
+    }
+
     private lateinit var chessBoardView: ChessBoardView
     private lateinit var resetButton: Button
     private lateinit var solutionView: TextView
@@ -168,7 +172,12 @@ class GameActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private fun onLoadGame(viewModel: LoadGameViewModel) {
+        if (viewModel.solutions != EMPTY_STRING) {
+            clickCounter = 2
+        }
         chessBoardView.setSize(viewModel.boardSize)
+        chessBoardView.setSource(viewModel.sourceY, viewModel.sourceX)
+        chessBoardView.setDestination(viewModel.destinationY, viewModel.destinationX)
         chessBoardView.invalidate()
         solutionView.text = viewModel.solutions
     }

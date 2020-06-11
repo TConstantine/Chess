@@ -34,6 +34,10 @@ import org.mockito.junit.MockitoJUnit
 class LoadGameUseCaseTest {
     companion object {
         private const val BOARD_SIZE = 0
+        private const val SOURCE_X = 0
+        private const val SOURCE_Y = 0
+        private const val DESTINATION_X = 0
+        private const val DESTINATION_Y = 0
         private val SOLUTIONS = listOf(KnightPathBuilder().build())
         private val REQUEST = LoadGameRequestBuilder().build()
     }
@@ -57,24 +61,36 @@ class LoadGameUseCaseTest {
 
     @Test
     fun shouldReturnResponseThatContainsLastSavedSolutions() {
-        `when`(mockPreferenceRepository.hasLastPreferredBoardSize()).thenReturn(true)
-        `when`(mockPreferenceRepository.getLastPreferredBoardSize()).thenReturn(BOARD_SIZE)
+        `when`(mockPreferenceRepository.hasLastSavedBoardSize()).thenReturn(true)
+        `when`(mockPreferenceRepository.getLastSavedBoardSize()).thenReturn(BOARD_SIZE)
+        `when`(mockPreferenceRepository.getSourceX()).thenReturn(SOURCE_X)
+        `when`(mockPreferenceRepository.getSourceY()).thenReturn(SOURCE_Y)
+        `when`(mockPreferenceRepository.getDestinationX()).thenReturn(DESTINATION_X)
+        `when`(mockPreferenceRepository.getDestinationY()).thenReturn(DESTINATION_Y)
         `when`(mockKnightPathRepository.loadSolutions()).thenReturn(SOLUTIONS)
 
         val response = useCase.execute(REQUEST)
 
         assertThat(response.boardSize, `is`(BOARD_SIZE))
+        assertThat(response.sourceX, `is`(SOURCE_X))
+        assertThat(response.sourceY, `is`(SOURCE_Y))
+        assertThat(response.destinationX, `is`(DESTINATION_X))
+        assertThat(response.destinationY, `is`(DESTINATION_Y))
         assertThat(response.solutions.isEmpty(), `is`(false))
     }
 
     @Test
     fun shouldReturnResponseWithoutSolutions() {
-        `when`(mockPreferenceRepository.hasLastPreferredBoardSize()).thenReturn(false)
+        `when`(mockPreferenceRepository.hasLastSavedBoardSize()).thenReturn(false)
         `when`(mockPreferenceRepository.getPreferredBoardSize()).thenReturn(BOARD_SIZE)
 
         val response = useCase.execute(REQUEST)
 
         assertThat(response.boardSize, `is`(BOARD_SIZE))
+        assertThat(response.sourceX, `is`(-1))
+        assertThat(response.sourceY, `is`(-1))
+        assertThat(response.destinationX, `is`(-1))
+        assertThat(response.destinationY, `is`(-1))
         assertThat(response.solutions.isEmpty(), `is`(true))
     }
 }

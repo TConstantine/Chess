@@ -17,10 +17,14 @@
 package constantine.theodoridis.android.game.chess.domain.repository
 
 interface PreferenceRepository {
-    fun getLastPreferredBoardSize(): Int
+    fun getDestinationX(): Int
+    fun getDestinationY(): Int
+    fun getLastSavedBoardSize(): Int
     fun getPreferredBoardSize(): Int
     fun getPreferredMoves(): Int
-    fun hasLastPreferredBoardSize(): Boolean
+    fun getSourceX(): Int
+    fun getSourceY(): Int
+    fun hasLastSavedBoardSize(): Boolean
     fun saveDestination(destinationX: Int, destinationY: Int)
     fun savePreferredBoardSize(boardSize: Int)
     fun saveSource(sourceX: Int, sourceY: Int)

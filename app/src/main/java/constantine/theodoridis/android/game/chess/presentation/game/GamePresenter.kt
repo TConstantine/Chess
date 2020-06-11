@@ -110,6 +110,10 @@ class GamePresenter(
     private fun createViewModelFromLoadGameResponse(response: LoadGameResponse): LoadGameViewModel {
         return LoadGameViewModel(
             boardSize = response.boardSize,
+            sourceX = response.sourceX,
+            sourceY = response.sourceY,
+            destinationX = response.destinationX,
+            destinationY = response.destinationY,
             solutions = if (response.solutions.isEmpty()) {
                 EMPTY_STRING
             } else {

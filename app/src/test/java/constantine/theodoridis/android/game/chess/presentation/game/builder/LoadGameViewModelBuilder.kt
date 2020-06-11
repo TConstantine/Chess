@@ -20,6 +20,10 @@ import constantine.theodoridis.android.game.chess.presentation.game.model.LoadGa
 
 class LoadGameViewModelBuilder {
     private var boardSize = 0
+    private var sourceX = 0
+    private var sourceY = 0
+    private var destinationX = 0
+    private var destinationY = 0
     private var solutions = ""
 
     fun withBoardSize(boardSize: Int): LoadGameViewModelBuilder {
@@ -33,6 +37,13 @@ class LoadGameViewModelBuilder {
     }
 
     fun build(): LoadGameViewModel {
-        return LoadGameViewModel(boardSize = boardSize, solutions = solutions)
+        return LoadGameViewModel(
+            boardSize = boardSize,
+            sourceX = sourceX,
+            sourceY = sourceY,
+            destinationX = destinationX,
+            destinationY = destinationY,
+            solutions = solutions
+        )
     }
 }

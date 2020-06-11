@@ -26,19 +26,34 @@ class LoadGameUseCase(
     private val preferenceRepository: PreferenceRepository,
     private val knightPathRepository: KnightPathRepository
 ): UseCase<LoadGameRequest, LoadGameResponse> {
+    companion object {
+        private const val NO_SOLUTION_COORDINATE = -1
+    }
+
     override fun execute(request: LoadGameRequest): LoadGameResponse {
         val boardSize: Int
-        val solutions: List<KnightPath>
-        if (preferenceRepository.hasLastPreferredBoardSize()) {
-            boardSize = preferenceRepository.getLastPreferredBoardSize()
+        var sourceX = NO_SOLUTION_COORDINATE
+        var sourceY = NO_SOLUTION_COORDINATE
+        var destinationX = NO_SOLUTION_COORDINATE
+        var destinationY = NO_SOLUTION_COORDINATE
+        var solutions = listOf<KnightPath>()
+        if (preferenceRepository.hasLastSavedBoardSize()) {
+            boardSize = preferenceRepository.getLastSavedBoardSize()
+            sourceX = preferenceRepository.getSourceX()
+            sourceY = preferenceRepository.getSourceY()
+            destinationX = preferenceRepository.getDestinationX()
+            destinationY = preferenceRepository.getDestinationY()
             solutions = knightPathRepository.loadSolutions()
         }
         else {
             boardSize = preferenceRepository.getPreferredBoardSize()
-            solutions = listOf()
         }
         return LoadGameResponse(
             boardSize = boardSize,
+            sourceX = sourceX,
+            sourceY = sourceY,
+            destinationX = destinationX,
+            destinationY = destinationY,
             solutions = solutions
         )
     }

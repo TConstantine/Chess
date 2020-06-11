@@ -21,6 +21,10 @@ import constantine.theodoridis.android.game.chess.domain.response.LoadGameRespon
 
 class LoadGameResponseBuilder {
     private var boardSize = 0
+    private var sourceX = 0
+    private var sourceY = 0
+    private var destinationX = 0
+    private var destinationY = 0
     private var solutions = listOf<KnightPath>()
 
     fun withBoardSize(boardSize: Int): LoadGameResponseBuilder {
@@ -36,6 +40,10 @@ class LoadGameResponseBuilder {
     fun build(): LoadGameResponse {
         return LoadGameResponse(
             boardSize = boardSize,
+            sourceX = sourceX,
+            sourceY = sourceY,
+            destinationX = destinationX,
+            destinationY = destinationY,
             solutions = solutions
         )
     }

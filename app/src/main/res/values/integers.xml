@@ -5,4 +5,5 @@
     <integer name="maximum_board_size">16</integer>
     <integer name="minimum_board_size">6</integer>
     <integer name="minimum_moves">1</integer>
+    <integer name="default_coordinate">-1</integer>
 </resources>

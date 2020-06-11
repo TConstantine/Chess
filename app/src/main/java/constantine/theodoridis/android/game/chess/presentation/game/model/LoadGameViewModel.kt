@@ -16,4 +16,11 @@
 
 package constantine.theodoridis.android.game.chess.presentation.game.model
 
-data class LoadGameViewModel(val boardSize: Int, val solutions: String)
+data class LoadGameViewModel(
+    val boardSize: Int,
+    val sourceX: Int,
+    val sourceY: Int,
+    val destinationX: Int,
+    val destinationY: Int,
+    val solutions: String
+)
