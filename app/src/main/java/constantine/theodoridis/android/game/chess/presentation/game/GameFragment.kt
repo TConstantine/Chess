@@ -18,7 +18,6 @@ package constantine.theodoridis.android.game.chess.presentation.game
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,8 @@ import constantine.theodoridis.android.game.chess.presentation.game.model.FindKn
 import constantine.theodoridis.android.game.chess.presentation.game.model.LoadGameViewModel
 import javax.inject.Inject
 
-class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener, ChessBoardView.OnTouchEventListener{
+class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener,
+    ChessBoardView.OnTouchEventListener {
     companion object {
         private const val EMPTY_STRING = ""
         private const val BUNDLE_CLICK_COUNTER = "BUNDLE_CLICK_COUNTER"
@@ -59,7 +59,11 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val rootView = inflater.inflate(R.layout.fragment_game, container, false)
         chessBoardView = rootView.findViewById(R.id.chess_board_view)
         resetButton = rootView.findViewById(R.id.reset)
@@ -76,22 +80,25 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
         presenter.loadGameViewModelObservable().observe(viewLifecycleOwner, Observer { viewModel ->
             onLoadGame(viewModel)
         })
-        presenter.findKnightPathsViewModelObservable().observe(viewLifecycleOwner, Observer { viewModel ->
-            onFindKnightPaths(viewModel)
-        })
+        presenter.findKnightPathsViewModelObservable()
+            .observe(viewLifecycleOwner, Observer { viewModel ->
+                onFindKnightPaths(viewModel)
+            })
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         if (savedInstanceState == null) {
             presenter.onLoad()
-        }
-        else {
+        } else {
             clickCounter = savedInstanceState.getInt(BUNDLE_CLICK_COUNTER)
             sourceX = savedInstanceState.getInt(BUNDLE_SOURCE_X)
             sourceY = savedInstanceState.getInt(BUNDLE_SOURCE_Y)
             destinationX = savedInstanceState.getInt(BUNDLE_DESTINATION_X)
             destinationY = savedInstanceState.getInt(BUNDLE_DESTINATION_Y)
             solutionView.text = savedInstanceState.getString(BUNDLE_SOLUTION)
-            chessBoardView.setSource(sourceX, sourceY)
-            chessBoardView.setDestination(sourceX, sourceY)
+            val boardSize = sharedPreferences
+                .getInt(getString(R.string.board_size_preference_key), R.integer.default_board_size)
+            chessBoardView.setSize(boardSize)
+            chessBoardView.setSource(sourceY, sourceX)
+            chessBoardView.setDestination(destinationY, destinationX)
             chessBoardView.invalidate()
         }
         super.onActivityCreated(savedInstanceState)
@@ -114,13 +121,17 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == getString(R.string.board_size_preference_key)) {
-            Log.d("GameActivity", "Change triggered")
+            val boardSize = sharedPreferences!!.getInt(key, R.integer.default_board_size)
+            chessBoardView.setSize(boardSize)
+            chessBoardView.invalidate()
         }
     }
 
     override fun onTileClick(row: Int, column: Int) {
         if (clickCounter < 2) {
             if (clickCounter == 1 && (sourceX != column || sourceY != row)) {
+                destinationX = column
+                destinationY = row
                 chessBoardView.setDestination(row, column)
                 chessBoardView.invalidate()
                 clickCounter++
@@ -137,22 +148,15 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
     }
 
     private fun onLoadGame(viewModel: LoadGameViewModel) {
-        val boardSize = sharedPreferences
-            .getInt(getString(R.string.board_size_preference_key), R.integer.default_board_size)
-        if (boardSize != viewModel.boardSize) {
-            chessBoardView.setSize(boardSize)
-            reset()
+        if (viewModel.solutions != EMPTY_STRING) {
+            clickCounter = 2
         }
-        else {
-            if (viewModel.solutions != EMPTY_STRING) {
-                clickCounter = 2
-            }
-            chessBoardView.setSize(viewModel.boardSize)
-            chessBoardView.setSource(viewModel.sourceY, viewModel.sourceX)
-            chessBoardView.setDestination(viewModel.destinationY, viewModel.destinationX)
-            chessBoardView.invalidate()
-            solutionView.text = viewModel.solutions
-        }
+        chessBoardView.setSize(viewModel.boardSize)
+        chessBoardView.setSource(viewModel.sourceY, viewModel.sourceX)
+        chessBoardView.setDestination(viewModel.destinationY, viewModel.destinationX)
+        chessBoardView.invalidate()
+        solutionView.text = viewModel.solutions
+
     }
 
     private fun onFindKnightPaths(viewModel: FindKnightPathsViewModel) {
@@ -163,6 +167,8 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
         clickCounter = 0
         sourceX = -1
         sourceY = -1
+        destinationX = -1
+        destinationY = -1
         chessBoardView.reset()
         chessBoardView.invalidate()
         solutionView.text = ""

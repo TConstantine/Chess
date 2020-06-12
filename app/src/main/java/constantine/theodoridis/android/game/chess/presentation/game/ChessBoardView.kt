@@ -42,9 +42,9 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
 
     override fun onDraw(canvas: Canvas?) {
         drawBoard(canvas)
-        drawOutline(canvas)
         drawSource(canvas)
         drawDestination(canvas)
+        drawOutline(canvas)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -84,7 +84,6 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
         val xCoordinate = event.x.toInt()
         val yCoordinate = event.y.toInt()
         if (event.action == MotionEvent.ACTION_DOWN) {
-            // TODO: Keep x, y rectangle positions to avoid re-calculation
             for (column in 0 until size) {
                 for (row in 0 until size) {
                     val x = calculateX(column)
@@ -165,17 +164,10 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
                 val x = calculateX(column)
                 val y = calculateY(row)
                 tile.set(x, y, x + tileSize, y + tileSize)
-                tilePaint.color = if (isEven(row, column)) Color.BLACK else Color.WHITE
+                tilePaint.color = if (isEven(row, column)) Color.WHITE else Color.BLACK
                 canvas?.drawRect(tile, tilePaint)
             }
         }
-    }
-
-    private fun drawOutline(canvas: Canvas?) {
-        outlinePaint.style = Paint.Style.STROKE
-        outlinePaint.strokeWidth = 5.0F
-        outline.set(0, 0, tileSize * size, tileSize * size)
-        canvas?.drawRect(outline, outlinePaint)
     }
 
     private fun drawSource(canvas: Canvas?) {
@@ -196,5 +188,12 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
             tileOutlinePaint.color = Color.RED
             canvas?.drawRect(tile, tileOutlinePaint)
         }
+    }
+
+    private fun drawOutline(canvas: Canvas?) {
+        outlinePaint.style = Paint.Style.STROKE
+        outlinePaint.strokeWidth = 5.0F
+        outline.set(0, 0, tileSize * size, tileSize * size)
+        canvas?.drawRect(outline, outlinePaint)
     }
 }
