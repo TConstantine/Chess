@@ -123,7 +123,8 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
         if (key == getString(R.string.board_size_preference_key)) {
             val boardSize = sharedPreferences!!.getInt(key, R.integer.default_board_size)
             chessBoardView.setSize(boardSize)
-            chessBoardView.invalidate()
+            chessBoardView.resize()
+            reset()
         }
     }
 

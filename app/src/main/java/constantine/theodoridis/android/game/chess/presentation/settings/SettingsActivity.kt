@@ -16,6 +16,7 @@
 
 package constantine.theodoridis.android.game.chess.presentation.settings
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import constantine.theodoridis.android.game.chess.R
@@ -29,5 +30,9 @@ class SettingsActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.settings, SettingsFragment())
             .commit()
+    }
+
+    override fun getParentActivityIntent(): Intent? {
+        return super.getParentActivityIntent()!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
 }

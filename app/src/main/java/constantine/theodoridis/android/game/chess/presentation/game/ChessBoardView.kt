@@ -126,6 +126,10 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
         destinationY = -1
     }
 
+    fun resize() {
+        requestLayout()
+    }
+
     fun setOnTouchEventListener(listener: OnTouchEventListener) {
         this.listener = listener
     }
