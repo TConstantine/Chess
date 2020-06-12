@@ -164,7 +164,6 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
         chessBoardView.setDestination(viewModel.destinationY, viewModel.destinationX)
         chessBoardView.invalidate()
         solutionView.text = viewModel.solutions
-
     }
 
     private fun onFindKnightPaths(viewModel: FindKnightPathsViewModel) {
