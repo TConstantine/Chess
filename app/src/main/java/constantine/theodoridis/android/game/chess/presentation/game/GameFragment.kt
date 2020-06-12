@@ -152,6 +152,10 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
         if (viewModel.solutions != EMPTY_STRING) {
             clickCounter = 2
         }
+        sourceX = viewModel.sourceX
+        sourceY = viewModel.sourceY
+        destinationX = viewModel.destinationX
+        destinationY = viewModel.destinationY
         chessBoardView.setSize(viewModel.boardSize)
         chessBoardView.setSource(viewModel.sourceY, viewModel.sourceX)
         chessBoardView.setDestination(viewModel.destinationY, viewModel.destinationX)
