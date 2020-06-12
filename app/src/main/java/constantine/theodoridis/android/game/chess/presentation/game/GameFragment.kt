@@ -41,6 +41,7 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
         private const val BUNDLE_DESTINATION_X = "BUNDLE_DESTINATION_X"
         private const val BUNDLE_DESTINATION_Y = "BUNDLE_DESTINATION_Y"
         private const val BUNDLE_SOLUTION = "BUNDLE_SOLUTION"
+        private const val BUNDLE_BOARD_SIZE = "BUNDLE_BOARD_SIZE"
     }
 
     private lateinit var chessBoardView: ChessBoardView
@@ -52,6 +53,7 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
     private var sourceY = -1
     private var destinationX = -1
     private var destinationY = -1
+    private var boardSize = 0
 
     @Inject
     lateinit var presenter: GamePresenter
@@ -89,13 +91,12 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
             presenter.onLoad()
         } else {
             clickCounter = savedInstanceState.getInt(BUNDLE_CLICK_COUNTER)
+            boardSize = savedInstanceState.getInt(BUNDLE_BOARD_SIZE)
             sourceX = savedInstanceState.getInt(BUNDLE_SOURCE_X)
             sourceY = savedInstanceState.getInt(BUNDLE_SOURCE_Y)
             destinationX = savedInstanceState.getInt(BUNDLE_DESTINATION_X)
             destinationY = savedInstanceState.getInt(BUNDLE_DESTINATION_Y)
             solutionView.text = savedInstanceState.getString(BUNDLE_SOLUTION)
-            val boardSize = sharedPreferences
-                .getInt(getString(R.string.board_size_preference_key), R.integer.default_board_size)
             chessBoardView.setSize(boardSize)
             chessBoardView.setSource(sourceY, sourceX)
             chessBoardView.setDestination(destinationY, destinationX)
@@ -106,6 +107,7 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(BUNDLE_CLICK_COUNTER, clickCounter)
+        outState.putInt(BUNDLE_BOARD_SIZE, boardSize)
         outState.putInt(BUNDLE_SOURCE_X, sourceX)
         outState.putInt(BUNDLE_SOURCE_Y, sourceY)
         outState.putInt(BUNDLE_DESTINATION_X, destinationX)
@@ -121,7 +123,7 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == getString(R.string.board_size_preference_key)) {
-            val boardSize = sharedPreferences!!.getInt(key, R.integer.default_board_size)
+            boardSize = sharedPreferences!!.getInt(key, R.integer.default_board_size)
             chessBoardView.setSize(boardSize)
             chessBoardView.resize()
             reset()
@@ -152,6 +154,7 @@ class GameFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
         if (viewModel.solutions != EMPTY_STRING) {
             clickCounter = 2
         }
+        boardSize = viewModel.boardSize
         sourceX = viewModel.sourceX
         sourceY = viewModel.sourceY
         destinationX = viewModel.destinationX
