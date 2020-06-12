@@ -27,8 +27,14 @@ import android.view.View
 import kotlin.math.min
 
 class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+    companion object {
+        private const val TEXT_SIZE_MODIFIER = 1.5
+        private val LETTERS = listOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p")
+    }
+
     private var listener: OnTouchEventListener? = null
     private var size = 8
+    private val textPaint = Paint()
     private val outlinePaint = Paint()
     private val outline = Rect()
     private val tilePaint = Paint()
@@ -41,6 +47,8 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
     private var destinationY = -1
 
     override fun onDraw(canvas: Canvas?) {
+        drawNumbers(canvas)
+        drawLetters(canvas)
         drawBoard(canvas)
         drawSource(canvas)
         drawDestination(canvas)
@@ -53,8 +61,8 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
         val width: Int
         val height: Int
         tileSize = calculateTileSize(widthSize, heightSize)
-        val desiredWidth = tileSize * size
-        val desiredHeight = tileSize * size
+        val desiredWidth = tileSize * (size + 1)
+        val desiredHeight = tileSize * (size + 1)
         width = when (MeasureSpec.getMode(widthMeasureSpec)) {
             MeasureSpec.EXACTLY -> {
                 widthSize
@@ -88,7 +96,7 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
                 for (row in 0 until size) {
                     val x = calculateX(column)
                     val y = calculateY(row)
-                    tile.set(x, y, x + tileSize, y + tileSize)
+                    tile.set(x + tileSize, y + tileSize, x + tileSize * 2, y + tileSize * 2)
                     if (tile.contains(xCoordinate, yCoordinate)) {
                         listener!!.onTileClick(row, column)
                     }
@@ -143,11 +151,11 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
     }
 
     private fun calculateTileWidth(width: Int): Int {
-        return width / size
+        return width / (size + 1)
     }
 
     private fun calculateTileHeight(height: Int): Int {
-        return height / size
+        return height / (size + 1)
     }
 
     private fun calculateX(x: Int): Int {
@@ -162,12 +170,29 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
         return (row + column) % 2 == 0
     }
 
+    private fun drawNumbers(canvas: Canvas?) {
+        textPaint.textSize = (tileSize / TEXT_SIZE_MODIFIER).toFloat()
+        val verticalTextModifier = (textPaint.descent() + textPaint.ascent()) / 2
+        for (row in 0 until size) {
+            canvas?.drawText("${row + 1}", 0F, (tileSize * (size + 1) - row * tileSize + verticalTextModifier), textPaint)
+        }
+    }
+
+    private fun drawLetters(canvas: Canvas?) {
+        val modifiedTileSize = (tileSize / TEXT_SIZE_MODIFIER).toFloat()
+        textPaint.textSize = modifiedTileSize
+        for (column in 0 until size) {
+            val horizontalTextModifier = textPaint.measureText(LETTERS[column]) / 2
+            canvas?.drawText(LETTERS[column], (column + 1) * tileSize + horizontalTextModifier, modifiedTileSize, textPaint)
+        }
+    }
+
     private fun drawBoard(canvas: Canvas?) {
         for (column in 0 until size) {
             for (row in 0 until size) {
                 val x = calculateX(column)
                 val y = calculateY(row)
-                tile.set(x, y, x + tileSize, y + tileSize)
+                tile.set(x + tileSize, y + tileSize, x + tileSize * 2, y + tileSize * 2)
                 tilePaint.color = if (isEven(row, column)) Color.WHITE else Color.BLACK
                 canvas?.drawRect(tile, tilePaint)
             }
@@ -178,7 +203,7 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
         if (sourceX >= 0 && sourceY >= 0) {
             val x = calculateX(sourceX)
             val y = calculateY(sourceY)
-            tile.set(x, y, x + tileSize, y + tileSize)
+            tile.set(x + tileSize, y + tileSize, x + tileSize * 2, y + tileSize * 2)
             tileOutlinePaint.color = Color.GREEN
             canvas?.drawRect(tile, tileOutlinePaint)
         }
@@ -188,7 +213,7 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
         if (destinationX >= 0 && destinationY >= 0) {
             val x = calculateX(destinationX)
             val y = calculateY(destinationY)
-            tile.set(x, y, x + tileSize, y + tileSize)
+            tile.set(x + tileSize, y + tileSize, x + tileSize * 2, y + tileSize * 2)
             tileOutlinePaint.color = Color.RED
             canvas?.drawRect(tile, tileOutlinePaint)
         }
@@ -196,8 +221,8 @@ class ChessBoardView(context: Context, attrs: AttributeSet) : View(context, attr
 
     private fun drawOutline(canvas: Canvas?) {
         outlinePaint.style = Paint.Style.STROKE
-        outlinePaint.strokeWidth = 5.0F
-        outline.set(0, 0, tileSize * size, tileSize * size)
+        outlinePaint.strokeWidth = 10.0F
+        outline.set(tileSize, tileSize, tileSize * (size + 1), tileSize *(size + 1))
         canvas?.drawRect(outline, outlinePaint)
     }
 }
